@@ -2,3 +2,30 @@
     margin-top: 3px;
     margin-bottom: 3px;
 }
+#searchInputContainer {
+    width: 100%;
+}
+#navbar .navbar-item {
+    text-align: right;
+}
+body {
+    background-image: url("../images/plate.jpg");
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: top;
+}
+html, body {
+    height: 100%;
+}
+#caloriesRemaining {
+    font-size: 1.5em;
+}
+#form {
+    width: 100%;
+}
+#content {
+    padding-top: 3%;
+}
+.template {
+    display: none;
+}

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +10,14 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
-
 <body>
     <div id="container">
-        <nav class="navbar" role="navigation" aria-label="main navigation">
+        <nav class="navbar is-fixed-top has-background-white-bis" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item" href="https://bulma.io">
+                <span class="navbar-item">
                     <img src="assets/images/meal.png">
-                </a>
+                    <span id="caloriesRemaining">2000</span>
+                </span>
                 <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
                     data-target="navbar">
                     <span aria-hidden="true"></span>
@@ -41,35 +40,42 @@
                         Settings
                     </a>
                 </div>
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        Calories remaining:&nbsp;<div id="caloriesRemaining">2000</div>
-                    </div>
-                </div>
             </div>
         </nav>
-        <section class="main-content columns is-fullheight" id="content">
-            <div class="container column is-10">
-                <div class="section">
-                    <div>
-                        <form id="form">
-                            <input class="input is-four-fifths" id="seachInput" type="text" placeholder="Search...">
-                            <input class="button" type="submit" value="Search">
-                        </form>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <p class="card-header-title">Header</p>
+        <form id="form">
+            <section class="main-content is-fullheight" id="content">
+                <div class="container">
+                    <div class="section">
+                        <div class="field has-addons">
+                            <div class="control" id="searchInputContainer">
+                                <input id="searchInput" type="text" class="input" placeholder="Search...">
+                            </div>
+                            <div class="control">
+                                <a class="button" id="searchButton">Search</a>
+                            </div>
                         </div>
-                        <div class="card-content">
-                            <div class="content">Content</div>
-                        </div>
+                            <div class="card">
+                                <div class="card-header has-background-light">
+                                    <p class="card-header-title">Header</p>
+                                </div>
+                                <div class="card-content">
+                                    <div class="content">Content</div>
+                                </div>
+                            </div>
                     </div>
                 </div>
+            </section>
+        </form>
+        <div id="cardTemplate" class="template">
+            <div class="card">
+                <div class="card-header has-background-light">
+                    <p class="card-header-title">Header</p>
+                </div>
+                <div class="card-content">
+                    <div class="content">Content</div>
+                </div>
             </div>
-
-        </section>
+        </div>
     </div>
 </body>
-
 </html>
