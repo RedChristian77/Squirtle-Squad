@@ -19,6 +19,8 @@ html, body {
 }
 #caloriesRemaining {
     font-size: 1.5em;
+	transition: opacity 0.5s ease-out;
+	color: #65b9cb;
 }
 #form {
     width: 100%;
