@@ -105,7 +105,7 @@ const script = function () {
 
         let body = new URLSearchParams("query=" + queryRequest);
 
-        fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
+        fetch('https://trackapi.nutritionix.com/v2/search/instant', {
             method: 'Post',
             body: body,
             headers: headers
@@ -114,6 +114,52 @@ const script = function () {
         }).then(function (data) {
             document.getElementById("form").reset();
             console.log(data);
+
+            //resets the card section at the bottom
+            document.getElementById("cardContainer").innerHTML = "";
+            
+            data.common.forEach(element => {
+                //clones template node
+                let template = document.getElementById("cardTemplate").children[0].cloneNode(true);
+
+                //takes name of Item
+                template.getElementsByClassName("card-header-title")[0].innerHTML = element.food_name.toUpperCase();
+
+                //Adding the image to a new created div
+                let photoDiv = document.createElement("div");
+                photoDiv.className += " column"
+                photoDiv.className += " is-one-quarter";
+                photoDiv.className += " is-mobile";
+                let image = document.createElement("img");
+                image.src = element.photo.thumb;
+                photoDiv.append(image);
+                template.getElementsByClassName("content")[0].append(photoDiv);
+
+                //Div for Information added
+                let infoDiv = document.createElement("div");
+                infoDiv.className += " column";
+                infoDiv.className += " is-half";
+                infoDiv.className += " is-mobile";
+                infoDiv.innerHTML = "Calories: " + //Need to figure out solution for this area, endpoint for common doesn't give calories
+                template.getElementsByClassName("content")[0].append(infoDiv);
+
+                //Creating Buttons
+                let buttonsDiv = document.createElement("div");
+                buttonsDiv.className += " column";
+                buttonsDiv.className += " is-one-quarter";
+                buttonsDiv.className += " is-mobile";
+                let createButton = document.createElement("a");
+                createButton.className += "button";
+                createButton.className += "is-link";
+                createButton.innerHTML = "Add +";
+                //Spot here for buttons queryselector
+
+                //
+                buttonsDiv.append(createButton);
+                template.getElementsByClassName("content")[0].append(buttonsDiv);
+
+                document.getElementById("cardContainer").append(template);
+            });
         });
     }
 
