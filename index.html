@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,16 +11,16 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
+
 <body>
     <div id="container">
         <nav class="navbar is-fixed-top has-background-white-bis" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <span class="navbar-item">
-                    <img src="assets/images/meal.png">
-                    <span id="caloriesRemaining">2000</span>
+                    <img id="mealIcon" src="assets/images/loading.gif">
+                    <span id="caloriesRemaining" style="opacity: 0"></span>
                 </span>
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-                    data-target="navbar">
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbar">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
@@ -33,17 +34,14 @@
                     <a href="history.html" class="navbar-item">
                         History
                     </a>
-                    <a href="workouts.html" class="navbar-item">
-                        Workouts
-                    </a>
                     <a href="settings.html" class="navbar-item">
                         Settings
                     </a>
-					<a href="https://www.fitbit.com/oauth2/authorize
+					<a id="fitbitLoginButton" class="navbar-item" href="https://www.fitbit.com/oauth2/authorize
 						?response_type=token
 						&client_id=22B7BF
-						&redirect_uri=https://redchristian77.github.io/Squirtle-Squad/
-						&scope=activity%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight
+						&redirect_uri=https://redchristian77.github.io/Squirtle-Squad
+						&scope=nutrition
 						&expires_in=604800">
 						Login to Fitbit
 					</a>
@@ -56,20 +54,22 @@
                     <div class="section">
                         <div class="field has-addons">
                             <div class="control" id="searchInputContainer">
-                                <input id="searchInput" type="text" class="input" placeholder="Search...">
+                                <input id="searchInput" type="text" class="input" placeholder="Enter a food to search...">
                             </div>
                             <div class="control">
-                                <a class="button" id="searchButton">Search</a>
+                                <input type="submit" class="button" id="searchButton" value="Search">
                             </div>
                         </div>
-						<div class="card">
-							<div class="card-header has-background-light">
-								<p class="card-header-title">Header</p>
-							</div>
-							<div class="card-content">
-								<div class="content">Content</div>
-							</div>
-						</div>
+                        <div id="cardContainer">
+                            <div class="card">
+                                <div class="card-header has-background-light">
+                                    <p class="card-header-title">Header123</p>
+                                </div>
+                                <div class="card-content">
+                                    <div class="content">Content</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -81,10 +81,11 @@
                     <p class="card-header-title">Header</p>
                 </div>
                 <div class="card-content">
-                    <div class="content">Content</div>
+                    <div class="content columns"></div>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
 </html>
