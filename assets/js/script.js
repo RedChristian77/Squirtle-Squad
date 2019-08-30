@@ -1,5 +1,10 @@
 const script = function () {
     let _params = {};
+
+    // set up localstorage
+    if (!Array.isArray(localStorage.my_foods)) {
+        localStorage.my_foods = JSON.stringify([]);
+    }
 	
 	const _deleteAccessToken = function () {
 		// otherwise get rid of the access_token param so we can grab it again next time
@@ -155,7 +160,11 @@ const script = function () {
 
                 createButton.addEventListener('click', () => {
                     console.log(element.food_name);
-                })
+                    const foods = JSON.parse(localStorage.my_foods)
+                    foods.push(element.food_name);
+                    localStorage.my_foods = JSON.stringify(foods);
+                    createButton.setAttribute('disabled', true);
+                });
                 //Spot here for buttons queryselector
                 
                 //
