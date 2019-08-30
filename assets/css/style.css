@@ -1,3 +1,13 @@
+body {
+    background-image: url("../images/plate.jpg");
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: top;
+}
+html, body {
+    height: 100%;
+}
+
 #content .section > * {
     margin-top: 3px;
     margin-bottom: 3px;
@@ -8,15 +18,7 @@
 #navbar .navbar-item {
     text-align: right;
 }
-body {
-    background-image: url("../images/plate.jpg");
-    background-size: cover;
-    background-position-x: center;
-    background-position-y: top;
-}
-html, body {
-    height: 100%;
-}
+
 #caloriesRemaining {
     font-size: 1.5em;
 	transition: opacity 0.5s ease-out;
@@ -30,4 +32,17 @@ html, body {
 }
 .template {
     display: none;
+}
+#manuel-input{
+    margin: 3rem 3rem 0 3rem;
+    background-color: whitesmoke;
+    padding: 2rem;
+    border-radius: 4px;
+    box-shadow: .3rem .3rem .3rem slategray;
+}
+#settings-table{
+    width: 50%;
+    margin: 2rem 25% 0 25%;
+    border-radius: 4px;
+    box-shadow: .3rem .3rem .3rem slategray;
 }
