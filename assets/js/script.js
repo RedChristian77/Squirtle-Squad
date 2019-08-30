@@ -153,7 +153,7 @@ const script = function () {
                 createButton.className += "is-link";
                 createButton.innerHTML = "Add +";
                 //Spot here for buttons queryselector
-
+                
                 //
                 buttonsDiv.append(createButton);
                 template.getElementsByClassName("content")[0].append(buttonsDiv);

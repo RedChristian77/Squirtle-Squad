@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
+
 <body>
     <nav class="navbar is-fixed-top has-background-white-bis" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
@@ -17,8 +19,7 @@
                 <img src="assets/images/meal.png">
                 <span id="caloriesRemaining">2000</span>
             </span>
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-                data-target="navbar">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbar">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -35,8 +36,82 @@
                 <a href="settings.html" class="navbar-item">
                     Settings
                 </a>
+                <a id="fitbitLoginButton" class="navbar-item" href="https://www.fitbit.com/oauth2/authorize
+                ?response_type=token
+                &client_id=22B7BF
+                &redirect_uri=https://redchristian77.github.io/Squirtle-Squad
+                &scope=nutrition
+                &expires_in=604800">
+                    Login to Fitbit
+                </a>
             </div>
         </div>
     </nav>
+    <div>
+    <div id="manuel-input">
+        <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+                <input id= "name-input"class="input" type="text" placeholder="Text input">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Calories</label>
+            <div class="control has-icons-left has-icons-right">
+                <input id= "calorie-input" class="input is-success" type="text" placeholder="Text input" value="2000">
+                <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                </span>
+                <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                </span>
+            </div>
+            <p class="help is-success">2000</p>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <label class="radio">
+                    <input type="radio" name="gender" value="male">
+                    Male
+                </label>
+                <label class="radio">
+                    <input type="radio" name="gender" value="female">
+                    Female
+                </label>
+            </div>
+        </div>
+
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-link">Submit</button>
+            </div>
+            <div class="control">
+                <button class="button is-text">Cancel</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div>
+        <table class="table" id="settings-table">
+            <thead>
+        <tr>
+            <th>Name</th>
+            <th>Calories</th>
+            <th>Gender</th>
+          </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <th>Dan</th>
+                  <th>2000</th>
+                  <th>Male</th>
+            </tr>
+            
+            </tbody>
+          </table>
+    </div>
 </body>
+
 </html>
