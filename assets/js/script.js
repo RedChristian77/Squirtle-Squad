@@ -140,7 +140,28 @@ const script = function () {
                 infoDiv.className += " column";
                 infoDiv.className += " is-half";
                 infoDiv.className += " is-mobile";
-                infoDiv.innerHTML = "Calories: " + //Need to figure out solution for this area, endpoint for common doesn't give calories
+                infoDiv.innerHTML = "Loading " + "<img src='assets/images/loading.gif'>";
+                //begin the fetch request for each items details
+                let queryRequest = encodeURI(element.food_name);
+
+                let body = new URLSearchParams("query=" + queryRequest);
+
+                fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
+                    method: 'Post',
+                    body: body,
+                    headers: headers
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    console.log(data);
+                    //create divs and put information inside said divs
+                    infoDiv.innerHTML = "";
+                    let itemDiv = document.createElement("div");
+                    itemDiv.className += "columns";
+                    
+
+                });
+        
                 template.getElementsByClassName("content")[0].append(infoDiv);
 
                 //Creating Buttons
