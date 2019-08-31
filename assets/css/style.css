@@ -1,3 +1,8 @@
+#history-table {
+    /* margin-top: 100px; */
+    width: 100%;
+    height: 50%;
+}
 body {
     background-image: url("../images/plate.jpg");
     background-size: cover;
@@ -18,7 +23,16 @@ html, body {
 #navbar .navbar-item {
     text-align: right;
 }
-
+body {
+    background-image: url("../images/plate.jpg");
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: top;
+    padding-top: 60px;
+}
+html, body {
+    height: 100%;
+}
 #caloriesRemaining {
     font-size: 1.5em;
 	transition: opacity 0.5s ease-out;

@@ -153,7 +153,7 @@ const script = function () {
                 createButton.className += "is-link";
                 createButton.innerHTML = "Add +";
                 //Spot here for buttons queryselector
-
+                
                 //
                 buttonsDiv.append(createButton);
                 template.getElementsByClassName("content")[0].append(buttonsDiv);
@@ -193,3 +193,17 @@ const script = function () {
 		});
     });
 }();
+
+document.addEventListener("onclick", function (){
+   
+})
+
+const newTr = document.createElement("tr");
+const newTd1 = document.createElement("td");
+newTd1.textContent = "content from local storage";
+const newTd2 = document.createElement("td");
+newTd2.textContent = "content from local storage";
+const newTd3 = document.createElement("td");
+newTd3.textContent = "content from local storage";
+newTr.appendChild(newTd1. newTd2, newTd3);
+document.getElementById("tbody").appendChild(newTr);
