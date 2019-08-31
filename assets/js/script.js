@@ -1,5 +1,10 @@
 const script = function () {
     let _params = {};
+
+    // set up localstorage
+    if (!Array.isArray(localStorage.my_foods)) {
+        localStorage.my_foods = JSON.stringify([]);
+    }
 	
 	const _deleteAccessToken = function () {
 		// otherwise get rid of the access_token param so we can grab it again next time
@@ -149,9 +154,17 @@ const script = function () {
                 buttonsDiv.className += " is-one-quarter";
                 buttonsDiv.className += " is-mobile";
                 let createButton = document.createElement("a");
-                createButton.className += "button";
-                createButton.className += "is-link";
+                createButton.classList.add("button");
+                createButton.classList.add("is-link");
                 createButton.innerHTML = "Add +";
+
+                createButton.addEventListener('click', () => {
+                    console.log(element.food_name);
+                    const foods = JSON.parse(localStorage.my_foods)
+                    foods.push(element.food_name);
+                    localStorage.my_foods = JSON.stringify(foods);
+                    createButton.setAttribute('disabled', true);
+                });
                 //Spot here for buttons queryselector
                 
                 //
@@ -194,16 +207,24 @@ const script = function () {
     });
 }();
 
-document.addEventListener("onclick", function (){
+// document.addEventListener("onclick", function (){
    
-})
+// })
 
-const newTr = document.createElement("tr");
-const newTd1 = document.createElement("td");
-newTd1.textContent = "content from local storage";
-const newTd2 = document.createElement("td");
-newTd2.textContent = "content from local storage";
-const newTd3 = document.createElement("td");
-newTd3.textContent = "content from local storage";
-newTr.appendChild(newTd1. newTd2, newTd3);
-document.getElementById("tbody").appendChild(newTr);
+// const newTr = document.createElement("tr");
+// const newTd1 = document.createElement("td");
+// newTd1.textContent = "content from local storage";
+// const newTd2 = document.createElement("td");
+// newTd2.textContent = "content from local storage";
+// const newTd3 = document.createElement("td");
+// newTd3.textContent = "content from local storage";
+// console.log(newTr);
+// newTr.appendChild(newTd1. newTd2, newTd3);
+// document.getElementById("tbody").appendChild(newTr);
+
+const links = document.getElementsByClassName("is-link");
+ links.forEach(function(link) {
+    link.addEventListener("click", function() {
+        console.log("hey");
+    });
+ })
