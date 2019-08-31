@@ -158,18 +158,38 @@ const script = function () {
                 createButton.classList.add("is-link");
                 createButton.innerHTML = "Add +";
 
-                createButton.addEventListener('click', () => {
-                    const date = prompt("When did you consume this item?");
-                    console.log(element.food_name);
-                    const foods = JSON.parse(localStorage.my_foods);
-                    const currentFood = {
-                        date: date,
-                        food: element.food_name,
-                    }
-                    foods.push(currentFood);
-                    localStorage.my_foods = JSON.stringify(foods);
-                    createButton.setAttribute('disabled', true);
-                    
+                createButton.addEventListener('click', async () => {
+                    const send = {
+                        query: element.food_name
+                    };
+
+                    fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
+                        method: 'Post',
+                        body: JSON.stringify(send),
+                        headers: {
+                            "x-app-key": "dda87a7beb9557383f39f2753bca8f84",
+                            "x-remote-user-id": 0,
+                            "x-app-id": "2aab2c41",
+                            "Content-Type": "application/json"
+                        },
+                    }).then(function (response) {
+                        return response.json();
+                    }).then(function (nutrientData) {
+                        console.log('nutrientdata', nutrientData.foods[0].nf_calories);
+                        const date = prompt("When did you consume this item?");
+                        console.log(element.food_name);
+                        const foods = JSON.parse(localStorage.my_foods);
+                        const currentFood = {
+                            date: date,
+                            food: element.food_name,
+                            servingSize: element.serving_unit,
+                            calorieCount: nutrientData.foods[0].nf_calories
+
+                        }
+                        foods.push(currentFood);
+                        localStorage.my_foods = JSON.stringify(foods);
+                        createButton.setAttribute('disabled', true);
+                    });
                 });
                 //Spot here for buttons queryselector
 
@@ -194,7 +214,7 @@ const script = function () {
             calories = _getFitbitCalories();
         }
         if (calories === null) {
-            //alert("Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
+            alert("Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
         }
         _initBulma();
         const form = document.getElementById('form');
@@ -218,17 +238,19 @@ const script = function () {
 
 
 function addItems() {
-    console.log('fired');
     const table = document.getElementById('tbody');
     const foods = JSON.parse(localStorage.my_foods);
+    //const servingSize = JSON.parse(localStorage.serving_unit);
     for (i = 0; i < foods.length; i++) {
         const newTr = table.insertRow(0);
         const cell1 = newTr.insertCell(0);
         const cell2 = newTr.insertCell(1);
         const cell3 = newTr.insertCell(2);
+        const cell4 = newTr.insertCell(3);
         cell1.innerHTML = foods[i].food;
-        cell2.innerHTML = 'Calorie Count';
-        cell3.innerHTML = foods[i].date;
+        cell2.innerHTML = foods[i].servingSize;
+        cell3.innerHTML = foods[i].calorieCount;
+        cell4.innerHTML = foods[i].date;
     }
     /*
     const newTd1 = document.createElement("td");
