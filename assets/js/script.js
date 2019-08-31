@@ -145,7 +145,7 @@ const script = function () {
                 infoDiv.className += " column";
                 infoDiv.className += " is-half";
                 infoDiv.className += " is-mobile";
-                infoDiv.innerHTML = "Calories: " + //Need to figure out solution for this area, endpoint for common doesn't give calories
+                infoDiv.innerHTML = "Calories: " + //added a new fetch request to take care of the calorie count
                     template.getElementsByClassName("content")[0].append(infoDiv);
 
                 //Creating Buttons
@@ -157,12 +157,12 @@ const script = function () {
                 createButton.classList.add("button");
                 createButton.classList.add("is-link");
                 createButton.innerHTML = "Add +";
-
+                // creates clcik event listener on the Add + button which then pushes all of the relative data to local storage
                 createButton.addEventListener('click', async () => {
                     const send = {
                         query: element.food_name
                     };
-
+                    //fetch request for nutrients. Specifically calories.
                     fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
                         method: 'Post',
                         body: JSON.stringify(send),
@@ -186,6 +186,7 @@ const script = function () {
                             calorieCount: nutrientData.foods[0].nf_calories
 
                         }
+                        //pushes to local storage array and disables button so you can't do it twice.
                         foods.push(currentFood);
                         localStorage.my_foods = JSON.stringify(foods);
                         createButton.setAttribute('disabled', true);
@@ -236,11 +237,10 @@ const script = function () {
     });
 }();
 
-
+// This function will alter our table on the history page to add our local storage items
 function addItems() {
     const table = document.getElementById('tbody');
     const foods = JSON.parse(localStorage.my_foods);
-    //const servingSize = JSON.parse(localStorage.serving_unit);
     for (i = 0; i < foods.length; i++) {
         const newTr = table.insertRow(0);
         const cell1 = newTr.insertCell(0);
@@ -252,17 +252,6 @@ function addItems() {
         cell3.innerHTML = foods[i].calorieCount;
         cell4.innerHTML = foods[i].date;
     }
-    /*
-    const newTd1 = document.createElement("td");
-    newTd1.textContent = localStorage.getItem(localStorage.my_foods);
-    const newTd2 = document.createElement("td");
-    newTd2.textContent = "content from local storage";
-    const newTd3 = document.createElement("td");
-    newTd3.textContent = "content from local storage";
-    console.log(newTr);
-    newTr.appendChild(newTd1.newTd2, newTd3);
-    */
-    // table.appendChild(newTr);
 }
-
+//runs addItems on page load.
 window.onload = addItems;
