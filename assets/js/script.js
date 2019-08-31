@@ -191,6 +191,9 @@ const script = function () {
                     let proteinDiv = document.createElement("div");
                     proteinDiv.setAttribute("data-protein",data.foods[0].nf_protein);
                     proteinDiv.className += " column";
+                    proteinDiv.className +=" is-mobile";
+                    proteinDiv.classname +=" is-half";
+                    itemDiv.append(proteinDiv);
 
                     infoDiv.append(itemDiv);
                 });
