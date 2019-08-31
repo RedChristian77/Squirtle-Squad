@@ -157,9 +157,37 @@ const script = function () {
                     //create divs and put information inside said divs
                     infoDiv.innerHTML = "";
                     let itemDiv = document.createElement("div");
-                    itemDiv.className += "columns";
-                    
+                    itemDiv.className += "columns is-mobile";
+                    //Calorie Div
+                    let calorieDiv = document.createElement("div");
+                    calorieDiv.setAttribute("data-calorie", data.foods[0].nf_calories);
+                    calorieDiv.className += " column";
+                    calorieDiv.classname += " is-mobile";
+                    calorieDiv.className += " is-full";
+                    calorieDiv.innerHTML = "Calories: " + data.foods[0].nf_calories;
+                    itemDiv.append(calorieDiv);
+                    //Carb Div
+                    let carbDiv = document.createElement("div");
+                    carbDiv.setAttribute("data-carb",data.foods[0].nf_total_carbohydrate);
+                    carbDiv.className += " column";
+                    carbDiv.className += " is-mobile";
+                    carbDiv.className += " is-half";
+                    carbDiv.innerHTML = "Carbs: " + data.foods[0].nf_total_carbohydrate;
+                    itemDiv.append(carbDiv);
+                    //Fats Div
+                    let fatsDiv = document.createElement("div");
+                    fatsDiv.setAttribute("data-fats",data.foods[0].nf_total_fat);
+                    fatsDiv.className += " column";
+                    fatsDiv.className += " is-mobile";
+                    fatsDiv.className += " is-half";
+                    fatsDiv.innerHTML = "Fats: " + data.foods[0].nf_total_fat;
+                    itemDiv.append(fatsDiv);
+                    //Protein Div
+                    let proteinDiv = document.createElement("div");
+                    proteinDiv.setAttribute("data-protein",data.foods[0].nf_protein);
+                    proteinDiv.className += " column";
 
+                    infoDiv.append(itemDiv);
                 });
         
                 template.getElementsByClassName("content")[0].append(infoDiv);
