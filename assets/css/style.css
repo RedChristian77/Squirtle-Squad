@@ -1,21 +1,19 @@
-#history-table {
-    /* margin-top: 100px; */
-    width: 100%;
-    height: 50%;
+html {
+	height: 100%;
+}
+body {
+	min-height: 100%;
 }
 body {
     background-image: url("../images/plate.jpg");
     background-size: cover;
     background-position-x: center;
     background-position-y: top;
+	background-attachment: fixed;
 }
-html, body {
-    height: 100%;
-}
-
-#content .section > * {
-    margin-top: 3px;
-    margin-bottom: 3px;
+#cardContainer .card {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 #searchInputContainer {
     width: 100%;
@@ -23,20 +21,10 @@ html, body {
 #navbar .navbar-item {
     text-align: right;
 }
-body {
-    background-image: url("../images/plate.jpg");
-    background-size: cover;
-    background-position-x: center;
-    background-position-y: top;
-    padding-top: 60px;
-}
-html, body {
-    height: 100%;
-}
 #caloriesRemaining {
     font-size: 1.5em;
 	transition: opacity 0.5s ease-out;
-	color: #65b9cb;
+	margin-left: 5px;
 }
 #form {
     width: 100%;
@@ -46,6 +34,54 @@ html, body {
 }
 .template {
     display: none;
+}
+#manuel-input{
+    margin: 3rem 3rem 0 3rem;
+    background-color: whitesmoke;
+    padding: 2rem;
+    border-radius: 4px;
+    box-shadow: .3rem .3rem .3rem slategray;
+}
+#settings-table{
+    width: 50%;
+    margin: 2rem 25% 0 25%;
+    border-radius: 4px;
+    box-shadow: .3rem .3rem .3rem slategray;
+}
+.ate-food-button {
+	margin-right: 7px;
+	margin-top: 7px;
+}
+.card-header {
+	position: relative;
+}
+div.food-image-div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
+}
+.food-image {
+	margin: 0 auto;
+}
+#caloriesButton {
+	height: 100%;
+}
+#searchField {
+	margin-bottom: 0.25rem;
+}
+#messageModal {
+	text-align: center;
+}
+.message-footer {
+	padding-bottom: 5px;
+}
+
+#history-table {
+    /* margin-top: 100px; */
+    width: 100%;
+    height: 50%;
 }
 #manuel-input{
     margin: 3rem 3rem 0 3rem;
