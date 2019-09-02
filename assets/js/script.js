@@ -1,6 +1,18 @@
 const script = function () {
     let _params = {};
 
+    // set up localstorage
+    if (!Array.isArray(localStorage.my_foods)) {
+        localStorage.my_foods = JSON.stringify([]);
+    }
+	
+	const _deleteAccessToken = function () {
+		// otherwise get rid of the access_token param so we can grab it again next time
+		delete _params["access_token"];
+		localStorage.setItem("authentication", JSON.stringify(_params));
+		document.getElementById("fitbitLoginButton").style.display = "block";
+	}
+
     const _clearCaloriesModal = function (element) {
         const modalElement = element.closest(".modal");
         modalElement.classList.remove("is-active");
@@ -49,44 +61,29 @@ const script = function () {
 
     // get day's remaining calories from fitbit
     const _getFitbitCalories = function () {
-        const completeFunction = function (calories) {
-            if (calories === void 0) {
-                calories = localStorage.getItem("calories");
-            }
-            document.getElementById("caloriesRemaining").textContent = calories;
-            if (calories === null) {
-                _displayMessage("This page won't work until you set a Calorie Goal. Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
-            } else {
-                _displayCalories(calories);
-            }
-        }
-
-        if (_params["access_token"] !== void 0) {
-            fetch("https://api.fitbit.com/1/user/" + _params["user_id"] + "/foods/log/goal.json", {
-                method: "GET",
-                headers: {
-                    "Authorization": "Bearer " + _params["access_token"]
-                }
-            })
-                .then(function (result) {
-                    return result.json();
-                })
-                .then(function (data) {
-                    // if there are goals (ie we didnt get an error)
-                    if (data.goals) {
-                        localStorage.setItem("authentication", JSON.stringify(_params));
-                        document.getElementById("caloriesRemaining").textContent = data.goals.calories;
-                        // save the new remaining calories
-                        localStorage.setItem("calories", data.goals.calories);
-                        completeFunction(data.goals.calories);
-                    } else {
-                        _deleteAccessToken();
-                        completeFunction();
-                    }
-                });
-        } else {
-            completeFunction();
-        }
+		if (_params["access_token"] !== void 0) {
+			fetch("https://api.fitbit.com/1/user/" + _params["user_id"] + "/foods/log/goal.json", {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + _params["access_token"]
+				}
+			})
+			.then(function (result) {
+				return result.json();
+			})
+			.then(function (data) {
+				// if there are goals (ie we didnt get an error)
+				if (data.goals) {
+					document.getElementById("caloriesRemaining").textContent = data.goals.calories;
+					// save the new remaining calories
+					localStorage.setItem("calories", data.goals.calories);
+				} else {
+					_deleteAccessToken();
+				}
+				document.getElementById("mealIcon").src = "assets/images/meal.png";
+				document.getElementById("caloriesRemaining").style.opacity = "1";
+			});
+		}
     }
 
     // encodes the url parameters into an object
@@ -119,29 +116,31 @@ const script = function () {
 
     // post to fitbit to update remaining calories
     const _updateFitbitCalories = function (calories) {
-        if (_params["access_token"] !== void 0) {
-            document.getElementById("caloriesRemaining").style.opacity = "0";
-            document.getElementById("mealIcon").src = "assets/images/loading.gif";
-            fetch("https://api.fitbit.com/1/user/" + _params["user_id"] + "/foods/log/goal.json?calories=" + calories, {
-                method: "POST",
-                headers: {
-                    "Authorization": "Bearer " + _params["access_token"]
-                }
-            })
-                .then(function (result) {
-                    return result.json();
-                })
-                .then(function (data) {
-                    // if there are no goals (ie we got an error)
-                    if (!data.goals) {
-                        _deleteAccessToken();
-                    }
-                    // give the number changing a nice effect
-                    _displayCalories(calories, 250);
-                });
-        } else {
-            _displayCalories(calories, 250);
-        }
+		if (_params["access_token"] !== void 0) {
+			document.getElementById("caloriesRemaining").style.opacity = "0";
+			document.getElementById("mealIcon").src = "assets/images/loading.gif";
+			fetch("https://api.fitbit.com/1/user/" + _params["user_id"] + "/foods/log/goal.json?calories=" + calories, {
+				method: "POST",
+				headers: {
+					"Authorization": "Bearer " + _params["access_token"]
+				}
+			})
+			.then(function (result) {
+				return result.json();
+			})
+			.then(function (data) {
+				// if there are no goals (ie we got an error)
+				if (!data.goals) {
+					_deleteAccessToken();
+				}
+				// give the number changing a nice effect
+				setTimeout(function() {
+					document.getElementById("mealIcon").src = "assets/images/meal.png";
+					document.getElementById("caloriesRemaining").textContent = calories;
+					document.getElementById("caloriesRemaining").style.opacity = "1";
+				}, 250);
+			});
+		}
     }
 
     // search for a food
@@ -169,22 +168,31 @@ const script = function () {
 
             //resets the card section at the bottom
             document.getElementById("cardContainer").innerHTML = "";
+            
+            data.common.forEach(element => {
+                createTable(element);
+            });
+            data.branded.forEach(element => {
+                //cloning template
+                createTable(element);
+            })
+        });
+    }
 
-            data.branded.forEach(datum => {
-                const calories = parseInt(datum.nf_calories);
-                //clones template node
+
+    function createTable(element){
+                let headers = {
+                    "x-app-key": "3a63f5345ced508dd2c4a951e8a7a892",
+                    "x-remote-user-id": 0,
+                    "x-app-id": "b27f5737",
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
                 let template = document.getElementById("cardTemplate").children[0].cloneNode(true);
 
                 //takes name of Item
-                template.getElementsByClassName("card-header-title")[0].innerHTML = datum.food_name.toUpperCase();
+                template.getElementsByClassName("card-header-title")[0].innerHTML = element.food_name.toUpperCase();
 
-                //Adding the image to a new created div
-                let image = template.getElementsByClassName("food-image")[0];
-                image.src = datum.photo.thumb;
-
-                //begin the fetch request for each items details
-                let queryRequest = encodeURI(datum.food_name);
-
+                let queryRequest = encodeURI(element.food_name);
                 let body = new URLSearchParams("query=" + queryRequest);
 
                 fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
@@ -194,6 +202,31 @@ const script = function () {
                 }).then(function (response) {
                     return response.json();
                 }).then(function (data) {
+                    console.log(data);
+                    //sets the correct Image
+                    template.getElementsByClassName("food-image")[0].setAttribute("src", data.photo.thumb);
+                    //Sets Serving Size
+                    template.getElementById("servingSize").innerHTML = data.serving_unit + "(About " + data.serving_weight_grams + ")";
+                    // Set Calorie
+                    template.getElementById("foodCalories").innerHTML = data.nf_calories;
+                    template.getElementById("caloriesID").innerHTML = data.nf_calories;
+                    // Set Fats
+                    template.getElementId("totalFat").innerHTML = Math.floor(data.nf_total_fat);
+                    template.getElementById("totalFatPerent").innerHTML = Math.floor((data.nf_total_fat / 65) * 100) + "%";
+                    template.getElementById("saturatedFat").innerHTML = Math.floor(nf_saturated_fat);
+                    template.getElementById("satFatPercent").innerHTML = Math.floor((nf_saturated_fat / 20) * 100) + "%";
+                    //Set Cholesterol
+                    template.getElementById("cholesterolID").innerHTML = Math.floor(data.nf_cholesterol);
+                    template.getElementById("cholID").innerHTML = Math.floor((nf_cholesterol / 300) *100) + "%";
+                    //Set Sodium
+                    template.getElementById("sodiumID").innerHTML = Math.floor(data.nf_sodium);
+                    template.getElementById("sodiumPercent").innerHTML = Math.floor((data.nf_sodium / 2300) * 100) + "%";
+                    //Set Carbs
+                    template.getElementById("carbsID").innerHTML = Math.floor(data.nf_total_carbohydrates);
+                    template.getElementById("carbsPercent").innerHTML = Math.floor((data.nf_total_carbohydrates / 300) * 100) + "%";
+                    template.getElementById("sugarID").innerHTML = Math.floor(data.nf_sugars);
+                    //Set Protein
+                    template.getElementById("proteinID").innerHTML = Math.floor(data_nf_protein);
                 });
 
                 const caloriesDiv = template.getElementsByClassName("calories")[0];
@@ -213,9 +246,11 @@ const script = function () {
                     }
                 });
                 //
+                buttonsDiv.append(createButton);
+                template.getElementsByClassName("content")[0].append(buttonsDiv);
+
                 document.getElementById("cardContainer").append(template);
-            });
-        });
+            
     }
 
     // run these things after the body has loaded since our script is in the head tag

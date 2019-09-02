@@ -125,7 +125,7 @@
 						Header
 					</p>
 					<a class="card-header-icon ate-food-button button is-info" aria-label="Log calories">
-						Log&nbsp; <span class="calories">0</span>&nbsp;calories
+						Log&nbsp; <span class="calories" id="caloriesID">0</span>&nbsp;calories
 					</a>
                 </div>
                 <div class="card-content">
@@ -137,14 +137,14 @@
 							<section class="performance-facts">
 							  <header class="performance-facts__header">
 								<h1 class="performance-facts__title">Nutrition Facts</h1>
-								<p>Serving Size 1/2 cup (about 82g)</p>
+								<p id="servingSize">Serving Size 1/2 cup (about 82g)</p>
 							  </header>
 							  <table class="performance-facts__table">
 								<tbody>
 								  <tr>
 									<th colspan="2">
 									  <b>Calories</b>
-									  <span class="has-text-info has-text-weight-bold is-size-5 calories">200</span>
+									  <span class="has-text-info has-text-weight-bold is-size-5 calories" id="foodCalories">200</span>
 									</th>
 									<td>
 									</td>
@@ -156,58 +156,58 @@
 								  </tr>
 								  <tr>
 									<th colspan="2">
-									  <b>Total Fat</b> 14g
+									  <b>Total Fat</b><span id="totalFat"></span>g
 									</th>
 									<td>
-									  <b>22%</b>
+									  <b id="totalFatPercent">22%</b>
 									</td>
 								  </tr>
 								  <tr>
 									<td class="blank-cell">
 									</td>
 									<th>
-									  Saturated Fat 9g
+									  Saturated Fat <span id="saturatedFat"></span>g
 									</th>
 									<td>
-									  <b>22%</b>
+									  <b id="satFatPercent">22%</b>
 									</td>
 								  </tr>
 								  <tr>
 									<th colspan="2">
-									  <b>Cholesterol</b> 55mg
+									  <b>Cholesterol</b><span id="cholesterolID"></span>mg
 									</th>
 									<td>
-									  <b>18%</b>
+									  <b id="cholID">18%</b>
 									</td>
 								  </tr>
 								  <tr>
 									<th colspan="2">
-									  <b>Sodium</b> 40mg
+									  <b>Sodium</b><span id="sodiumID"></span>mg
 									</th>
 									<td>
-									  <b>2%</b>
+									  <b id="sodiumPercent">2%</b>
 									</td>
 								  </tr>
 								  <tr>
 									<th colspan="2">
-									  <b>Total Carb</b> 17g
+									  <b>Total Carb</b><span id="carbsID"></span>g
 									</th>
 									<td>
-									  <b>6%</b>
+									  <b id="carbsPercent">6%</b>
 									</td>
 								  </tr>
 								  <tr>
 									<td class="blank-cell">
 									</td>
 									<th>
-									  Sugars 14g
+									  Sugars <span id="sugarID"></span>g
 									</th>
 									<td>
 									</td>
 								  </tr>
 								  <tr>
 									<th colspan="2">
-									  <b>Protein</b> 3g
+									  <b>Protein</b><span id="proteinID"></span>g
 									</th>
 									<td>
 									</td>
