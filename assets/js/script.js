@@ -101,9 +101,9 @@ const script = function () {
     const _searchRequest = function (event) {
         event.preventDefault();
         let headers = {
-            "x-app-key": "dda87a7beb9557383f39f2753bca8f84",
+            "x-app-key": "3a63f5345ced508dd2c4a951e8a7a892",
             "x-remote-user-id": 0,
-            "x-app-id": "2aab2c41",
+            "x-app-id": "b27f5737",
             "Content-Type": "application/x-www-form-urlencoded"
         }
         let queryRequest = encodeURI(document.getElementById("searchInput").value);
@@ -146,6 +146,7 @@ const script = function () {
                 //takes name of Item
                 template.getElementsByClassName("card-header-title")[0].innerHTML = element.food_name.toUpperCase();
 
+                let queryRequest = encodeURI(element.food_name);
                 let body = new URLSearchParams("query=" + queryRequest);
 
                 fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
@@ -159,31 +160,28 @@ const script = function () {
                     //sets the correct Image
                     template.getElementsByClassName("food-image")[0].setAttribute("src", data.photo.thumb);
                     //Sets Serving Size
-                    template.getElementById("servingSize").innerHTML = data.serving_unit + "(About " + data.serving_grams + ")";
+                    template.getElementById("servingSize").innerHTML = data.serving_unit + "(About " + data.serving_weight_grams + ")";
                     // Set Calorie
                     template.getElementById("foodCalories").innerHTML = data.nf_calories;
                     template.getElementById("caloriesID").innerHTML = data.nf_calories;
                     // Set Fats
                     template.getElementId("totalFat").innerHTML = Math.floor(data.nf_total_fat);
-                    let fatsDiv = document.createElement("div");
-                    fatsDiv.setAttribute("data-fats",data.foods[0].nf_total_fat);
-                    fatsDiv.className += " column";
-                    fatsDiv.className += " is-mobile";
-                    fatsDiv.className += " is-half";
-                    fatsDiv.innerHTML = "Fats: " + data.foods[0].nf_total_fat;
-                    itemDiv.append(fatsDiv);
-                    //Protein Div
-                    let proteinDiv = document.createElement("div");
-                    proteinDiv.setAttribute("data-protein",data.foods[0].nf_protein);
-                    proteinDiv.className += " column";
-                    proteinDiv.className +=" is-mobile";
-                    proteinDiv.classname +=" is-half";
-                    itemDiv.append(proteinDiv);
-
-                    infoDiv.append(itemDiv);
+                    template.getElementById("totalFatPerent").innerHTML = Math.floor((data.nf_total_fat / 65) * 100) + "%";
+                    template.getElementById("saturatedFat").innerHTML = Math.floor(nf_saturated_fat);
+                    template.getElementById("satFatPercent").innerHTML = Math.floor((nf_saturated_fat / 20) * 100) + "%";
+                    //Set Cholesterol
+                    template.getElementById("cholesterolID").innerHTML = Math.floor(data.nf_cholesterol);
+                    template.getElementById("cholID").innerHTML = Math.floor((nf_cholesterol / 300) *100) + "%";
+                    //Set Sodium
+                    template.getElementById("sodiumID").innerHTML = Math.floor(data.nf_sodium);
+                    template.getElementById("sodiumPercent").innerHTML = Math.floor((data.nf_sodium / 2300) * 100) + "%";
+                    //Set Carbs
+                    template.getElementById("carbsID").innerHTML = Math.floor(data.nf_total_carbohydrates);
+                    template.getElementById("carbsPercent").innerHTML = Math.floor((data.nf_total_carbohydrates / 300) * 100) + "%";
+                    template.getElementById("sugarID").innerHTML = Math.floor(data.nf_sugars);
+                    //Set Protein
+                    template.getElementById("proteinID").innerHTML = Math.floor(data_nf_protein);
                 });
-        
-                template.getElementsByClassName("content")[0].append(infoDiv);
 
                 //Creating Buttons
                 let buttonsDiv = document.createElement("div");
