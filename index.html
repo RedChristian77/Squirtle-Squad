@@ -10,15 +10,18 @@
     <link href="favicon.png" rel="icon" type="image/x-png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/nutrition.css" rel="stylesheet">
 </head>
 
 <body>
     <div id="container">
         <nav class="navbar is-fixed-top has-background-white-bis" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <span class="navbar-item">
-                    <img id="mealIcon" src="assets/images/loading.gif">
-                    <span id="caloriesRemaining" style="opacity: 0"></span>
+                <span class="navbar-item is-paddingless">
+					<a class="button is-marginless is-info" id="caloriesButton">
+						<img id="mealIcon" src="assets/images/loading.gif">
+						<span id="caloriesRemaining" style="opacity: 0">----</span>
+					</a>
                 </span>
                 <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbar">
                     <span aria-hidden="true"></span>
@@ -28,7 +31,7 @@
             </div>
             <div id="navbar" class="navbar-menu">
                 <div class="navbar-start">
-                    <a href="index.html" class="navbar-item">
+                    <a href="./" class="navbar-item">
                         Home
                     </a>
                     <a href="history.html" class="navbar-item">
@@ -37,13 +40,16 @@
                     <a href="settings.html" class="navbar-item">
                         Settings
                     </a>
-					<a id="fitbitLoginButton" class="navbar-item" href="https://www.fitbit.com/oauth2/authorize
+					<a id="fitbitLoginButton" class="navbar-item is-hidden" href="https://www.fitbit.com/oauth2/authorize
 						?response_type=token
 						&client_id=22B7BF
 						&redirect_uri=https://redchristian77.github.io/Squirtle-Squad
 						&scope=nutrition
 						&expires_in=604800">
-						Login to Fitbit
+						Fitbit Login
+					</a>
+					<a id="fitbitLogoutButton" class="navbar-item is-hidden">
+						Fitbit Logout
 					</a>
                 </div>
             </div>
@@ -63,10 +69,13 @@
                         <div id="cardContainer">
                             <div class="card">
                                 <div class="card-header has-background-light">
-                                    <p class="card-header-title">Header123</p>
+                                    <p class="card-header-title">Welcome to Calorie Tracker!</p>
                                 </div>
                                 <div class="card-content">
-                                    <div class="content">Content</div>
+                                    <div class="content has-text-centered">
+										<img src="assets/images/healthy.png"><br>
+										Search for a food to add it to your calorie log, or click your calorie counter on the top left to manually log calories.
+									</div>
                                 </div>
                             </div>
                         </div>
@@ -74,13 +83,140 @@
                 </div>
             </section>
         </form>
+		<div class="modal" id="calorieLogModal">
+			<div class="modal-background"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+					<p class="modal-card-title">Update calorie log</p>
+					<button class="delete clear-form" aria-label="close"></button>
+				</header>
+				<section class="modal-card-body">
+					<div class="field">
+						<div class="control">
+							<input class="input is-info" type="text" placeholder="Calories eaten" id="caloriesEatenInput">
+						</div>
+					</div>
+				</section>
+				<footer class="modal-card-foot">
+					<button class="button is-info" id="saveCalorieGoal">Save changes</button>
+					<button class="button clear-form">Cancel</button>
+				</footer>
+			</div>
+		</div>
+		<div class="modal" id="messageModal">
+			<div class="modal-background"></div>
+			<div class="modal-content">
+				<article class="message is-warning">
+					<div class="message-header">
+						<p>Warning</p>
+						<button class="delete close-modal" aria-label="delete"></button>
+					</div>
+					<div class="message-body"></div>
+					<div class="message-footer">
+						<a class="button is-warning close-modal">OK</a>
+					</div>
+				</article>
+			</div>
+		</div>
         <div id="cardTemplate" class="template">
             <div class="card">
                 <div class="card-header has-background-light">
-                    <p class="card-header-title">Header</p>
+                    <p class="card-header-title">
+						Header
+					</p>
+					<a class="card-header-icon ate-food-button button is-info" aria-label="Log calories">
+						Log&nbsp; <span class="calories">0</span>&nbsp;calories
+					</a>
                 </div>
                 <div class="card-content">
-                    <div class="content columns"></div>
+                    <div class="content columns">
+						<div class="food-image-div column is-one-quarter">
+							<img class="food-image" src="assets/images/loading.gif">
+						</div>
+						<div class="nutrition-info column">
+							<section class="performance-facts">
+							  <header class="performance-facts__header">
+								<h1 class="performance-facts__title">Nutrition Facts</h1>
+								<p>Serving Size 1/2 cup (about 82g)</p>
+							  </header>
+							  <table class="performance-facts__table">
+								<tbody>
+								  <tr>
+									<th colspan="2">
+									  <b>Calories</b>
+									  <span class="has-text-info has-text-weight-bold is-size-5 calories">200</span>
+									</th>
+									<td>
+									</td>
+								  </tr>
+								  <tr class="thick-row">
+									<td colspan="3" class="small-info">
+									  <b>% Daily Value*</b>
+									</td>
+								  </tr>
+								  <tr>
+									<th colspan="2">
+									  <b>Total Fat</b> 14g
+									</th>
+									<td>
+									  <b>22%</b>
+									</td>
+								  </tr>
+								  <tr>
+									<td class="blank-cell">
+									</td>
+									<th>
+									  Saturated Fat 9g
+									</th>
+									<td>
+									  <b>22%</b>
+									</td>
+								  </tr>
+								  <tr>
+									<th colspan="2">
+									  <b>Cholesterol</b> 55mg
+									</th>
+									<td>
+									  <b>18%</b>
+									</td>
+								  </tr>
+								  <tr>
+									<th colspan="2">
+									  <b>Sodium</b> 40mg
+									</th>
+									<td>
+									  <b>2%</b>
+									</td>
+								  </tr>
+								  <tr>
+									<th colspan="2">
+									  <b>Total Carb</b> 17g
+									</th>
+									<td>
+									  <b>6%</b>
+									</td>
+								  </tr>
+								  <tr>
+									<td class="blank-cell">
+									</td>
+									<th>
+									  Sugars 14g
+									</th>
+									<td>
+									</td>
+								  </tr>
+								  <tr>
+									<th colspan="2">
+									  <b>Protein</b> 3g
+									</th>
+									<td>
+									</td>
+								  </tr>
+								</tbody>
+							  </table>
+							</section>
+						</div>
+					</div>
                 </div>
             </div>
         </div>
