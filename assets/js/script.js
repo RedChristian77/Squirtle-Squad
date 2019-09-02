@@ -145,8 +145,64 @@ const script = function () {
                 infoDiv.className += " column";
                 infoDiv.className += " is-half";
                 infoDiv.className += " is-mobile";
+
                 infoDiv.innerHTML = "Calories: " + //added a new fetch request to take care of the calorie count
                     template.getElementsByClassName("content")[0].append(infoDiv);
+
+                infoDiv.innerHTML = "Loading " + "<img src='assets/images/loading.gif'>";
+                //begin the fetch request for each items details
+                let queryRequest = encodeURI(element.food_name);
+
+                let body = new URLSearchParams("query=" + queryRequest);
+
+                fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
+                    method: 'Post',
+                    body: body,
+                    headers: headers
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    console.log(data);
+                    //create divs and put information inside said divs
+                    infoDiv.innerHTML = "";
+                    let itemDiv = document.createElement("div");
+                    itemDiv.className += "columns is-mobile";
+                    //Calorie Div
+                    let calorieDiv = document.createElement("div");
+                    calorieDiv.setAttribute("data-calorie", data.foods[0].nf_calories);
+                    calorieDiv.className += " column";
+                    calorieDiv.classname += " is-mobile";
+                    calorieDiv.className += " is-full";
+                    calorieDiv.innerHTML = "Calories: " + data.foods[0].nf_calories;
+                    itemDiv.append(calorieDiv);
+                    //Carb Div
+                    let carbDiv = document.createElement("div");
+                    carbDiv.setAttribute("data-carb",data.foods[0].nf_total_carbohydrate);
+                    carbDiv.className += " column";
+                    carbDiv.className += " is-mobile";
+                    carbDiv.className += " is-half";
+                    carbDiv.innerHTML = "Carbs: " + data.foods[0].nf_total_carbohydrate;
+                    itemDiv.append(carbDiv);
+                    //Fats Div
+                    let fatsDiv = document.createElement("div");
+                    fatsDiv.setAttribute("data-fats",data.foods[0].nf_total_fat);
+                    fatsDiv.className += " column";
+                    fatsDiv.className += " is-mobile";
+                    fatsDiv.className += " is-half";
+                    fatsDiv.innerHTML = "Fats: " + data.foods[0].nf_total_fat;
+                    itemDiv.append(fatsDiv);
+                    //Protein Div
+                    let proteinDiv = document.createElement("div");
+                    proteinDiv.setAttribute("data-protein",data.foods[0].nf_protein);
+                    proteinDiv.className += " column";
+                    proteinDiv.className +=" is-mobile";
+                    proteinDiv.classname +=" is-half";
+                    itemDiv.append(proteinDiv);
+
+                    infoDiv.append(itemDiv);
+                });
+        
+                template.getElementsByClassName("content")[0].append(infoDiv);
 
                 //Creating Buttons
                 let buttonsDiv = document.createElement("div");
