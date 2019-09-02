@@ -28,13 +28,13 @@
             </div>
             <div id="navbar" class="navbar-menu">
                 <div class="navbar-start">
-                    <a href="./" class="navbar-item">
+                    <a href="./" class="navbar-item is-tab">
                         Home
                     </a>
-                    <a href="history.html" class="navbar-item">
+                    <a href="history.html" class="navbar-item is-tab is-active">
                         History
                     </a>
-                    <a href="settings.html" class="navbar-item">
+                    <a href="settings.html" class="navbar-item is-tab">
                         Settings
                     </a>
 					<a id="fitbitLoginButton" class="navbar-item is-hidden" href="https://www.fitbit.com/oauth2/authorize
@@ -57,7 +57,10 @@
                     <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="history-table">
                         <thead>
                             <tr>
-                                <th>Food</th>
+                                <th colspan="3" class="has-background-light">Food History</th>
+                            </tr>
+                            <tr>
+                                <th>Name</th>
                                 <th>Calories</th>
                                 <th>Date</th>
                             </tr>

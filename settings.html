@@ -9,6 +9,7 @@
     <script src="assets/js/script.js"></script>
     <link href="favicon.png" rel="icon" type="image/x-png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bulma-extensions@6.2.7/bulma-checkradio/dist/css/bulma-checkradio.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
 
@@ -30,16 +31,16 @@
             </div>
             <div id="navbar" class="navbar-menu">
                 <div class="navbar-start">
-                    <a href="./" class="navbar-item">
+                    <a href="./" class="navbar-item is-tab">
                         Home
                     </a>
-                    <a href="history.html" class="navbar-item">
+                    <a href="history.html" class="navbar-item is-tab">
                         History
                     </a>
-                    <a href="settings.html" class="navbar-item">
+                    <a href="settings.html" class="navbar-item is-tab is-active">
                         Settings
                     </a>
-                    <a id="fitbitLoginButton" class="navbar-item is-hidden" href="https://www.fitbit.com/oauth2/authorize
+                    <a id="fitbitLoginButton" class="navbar-item is-hidden is-tab" href="https://www.fitbit.com/oauth2/authorize
                         ?response_type=token
                         &client_id=22B7BF
                         &redirect_uri=https://redchristian77.github.io/Squirtle-Squad
@@ -47,7 +48,7 @@
                         &expires_in=604800">
                         Fitbit Login
                     </a>
-                    <a id="fitbitLogoutButton" class="navbar-item is-hidden">
+                    <a id="fitbitLogoutButton" class="navbar-item is-hidden is-tab">
                         Fitbit Logout
                     </a>
                 </div>
@@ -57,42 +58,35 @@
             <div class="container">
                 <div class="section">
                     <div class="card">
-                            <div class="card-header has-background-light">
-                                <p class="card-header-title">Settings</p>
-                            </div>
+                        <div class="card-header has-background-light">
+                            <p class="card-header-title">Update Daily Calorie Goal</p>
+                        </div>
                         <div class="card-content">
                             <div id="manuel-input">
                                 <div class="field">
                                     <label class="label">Name</label>
                                     <div class="control">
-                                        <input id="name-input" class="input is-info" type="text" placeholder="Text input">
+                                        <input id="name-input" class="input is-info" type="text" placeholder="Name">
                                     </div>
                                 </div>
         
                                 <div class="field">
-                                    <label class="label">Calories</label>
+                                    <label class="label">Daily Calorie Goal</label>
                                     <div class="control">
-                                        <input id="calorie-input" class="input is-info" type="number" placeholder="Text input"
+                                        <input id="calorie-input" class="input is-info" type="number" placeholder="Daily Calorie Goal"
                                             value="2000">
                                     </div>
                                 </div>
-        
+    
+                                <div class="field">
+                                    <input class="is-checkradio is-info" id="maleCheckbox" type="radio" name="gender" value="Male" checked="checked">
+                                    <label for="maleCheckbox">Male</label>
+                                    <input class="is-checkradio is-info" id="femaleCheckbox" type="radio" name="gender" value="Female">
+                                    <label for="femaleCheckbox">Female</label>
+                                </div>
                                 <div class="field">
                                     <div class="control">
-                                        <label class="radio">
-                                            <input type="radio" name="gender" value="male">
-                                            Male
-                                        </label>
-                                        <label class="radio">
-                                            <input type="radio" name="gender" value="female">
-                                            Female
-                                        </label>
-                                    </div>
-                                </div>
-        
-                                <div class="field is-grouped">
-                                    <div class="control">
-                                        <button class="button is-link" id="submit2">Update</button>
+                                        <button class="button is-info" id="submit2">Update</button>
                                     </div>
                                 </div>
                             </div>
@@ -102,23 +96,15 @@
                         <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="settings-table">
                             <thead>
                                 <tr>
+                                    <th colspan="3" class="has-background-light">Previous Goals</th>
+                                </tr>
+                                <tr>
                                     <th>Name</th>
                                     <th>Calories</th>
                                     <th>Gender</th>
                                 </tr>
                             </thead>
-                            <tbody id="table-info">
-                                <tr>
-                                    <td>John</td>
-                                    <td>2100</td>
-                                    <td>Male</td>
-                                </tr>
-                                <tr>
-                                    <td>Jill</td>
-                                    <td>1900</td>
-                                    <td>Female</td>
-                                </tr>
-                            </tbody>
+                            <tbody id="table-info"></tbody>
                         </table>
                     </div>
                 </div>
