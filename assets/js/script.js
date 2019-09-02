@@ -22,7 +22,7 @@ const script = function () {
                 hours = (hours < 10 ? "0" : "") + hours;
                 const minutes = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
                 const dateString = (date.getMonth() + 1) + "/" + (date.getDate() + 1) + "/" + (date.getFullYear()) 
-                                    + " " + hours + ":" + minutes + " " + (isPm ? "PM" : "AM");
+                                    + " " + hours + ":" + minutes + (isPm ? "pm" : "am");
                 cell4.innerHTML = dateString;
             }
         }
@@ -224,7 +224,7 @@ const script = function () {
                     if (data.message !== "usage limits exceeded") {
                         template.getElementsByClassName("food-image")[0].setAttribute("src", data.photo.thumb);
                         //Sets Serving Size
-                        //template.getElementById("servingSize").innerHTML = data.serving_unit + "(About " + data.serving_weight_grams + ")";
+                        template.getElementById("servingSize").innerHTML = data.serving_unit + "(About " + data.serving_weight_grams + ")";
                         // Set Calorie
                         template.getElementById("foodCalories").innerHTML = data.nf_calories;
                         template.getElementById("caloriesID").innerHTML = data.nf_calories;
