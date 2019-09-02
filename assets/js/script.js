@@ -224,40 +224,81 @@ const script = function () {
 			alert("Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
 		}
         _initBulma();
-        document.getElementById("form").addEventListener("submit", _searchRequest);
-		document.querySelectorAll(".ate-food-button").forEach(function(button) {
-			button.addEventListener("click", function() {
-				// only allow the button to be pressed once
-				if (this.getAttribute("disabled") !== "disabled") {
-					const caloriesEaten = parseInt(this.getAttribute("data-calories"));
-					const calories = parseInt(document.getElementById("caloriesRemaining").textContent) - caloriesEaten;
-					localStorage.setItem("calories", calories);
-					_updateFitbitCalories(calories);
-					this.setAttribute("disabled", "disabled");
-				}
-			});
-		});
+
+        const form = document.getElementById("form");
+        if (form) {
+            form.addEventListener("submit", _searchRequest);
+        }
+        document.querySelectorAll(".ate-food-button").forEach(function (button) {
+            button.addEventListener("click", function () {
+                // only allow the button to be pressed once
+                if (this.getAttribute("disabled") !== "disabled") {
+                    const caloriesEaten = parseInt(this.getAttribute("data-calories"));
+                    const calories = parseInt(document.getElementById("caloriesRemaining").textContent) - caloriesEaten;
+                    localStorage.setItem("calories", calories);
+                    _updateFitbitCalories(calories);
+                    this.setAttribute("disabled", "disabled");
+                }
+            });
+            // This function will alter our table on the history page to add our local storage items
+            function addItems() {
+                const table = document.getElementById('tbody');
+                const foods = JSON.parse(localStorage.my_foods);
+                for (i = 0; i < foods.length; i++) {
+                    const newTr = table.insertRow(0);
+                    const cell1 = newTr.insertCell(0);
+                    const cell2 = newTr.insertCell(1);
+                    const cell3 = newTr.insertCell(2);
+                    const cell4 = newTr.insertCell(3);
+                    cell1.innerHTML = foods[i].food;
+                    cell2.innerHTML = foods[i].servingSize;
+                    cell3.innerHTML = foods[i].calorieCount;
+                    cell4.innerHTML = foods[i].date;
+                }
+            }
+            const clearHistoryButton = document.getElementById("clear-history");
+            if (clearHistoryButton) {
+                clearHistoryButton.addEventListener("click", function () {
+                    //set the my_foods array to a blank array
+                    const newArray = [];
+                    localStorage.getItem("my_foods");
+                    localStorage.setItem(newArray, "Recently Cleared");
+                    document.getElementById("tbody").innerHTML = localStorage.getItem(newArray);
+                });
+            }
+            document.getElementById("fitbitLogoutButton").addEventListener("click", function () {
+                _deleteAccessToken();
+                _displayFitbitLogin(true);
+            });
+            document.getElementById("caloriesButton").addEventListener("click", function () {
+                if (localStorage.getItem("calories") !== null) {
+                    document.getElementById("calorieLogModal").classList.add("is-active");
+                } else {
+                    _displayMessage("You cannot log calories yet. Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
+                }
+            });
+            document.querySelectorAll(".clear-form").forEach(
+                deleteButton => {
+                    deleteButton.addEventListener("click", function () {_clearCaloriesModal(deleteButton)});
+                }
+            );
+            document.querySelectorAll(".close-modal").forEach(
+                deleteButton => {
+                    deleteButton.addEventListener("click", function () {
+                        this.closest(".modal").classList.remove("is-active");
+                    });
+                }
+            );
+            document.getElementById("saveCalorieGoal").addEventListener("click", function () {
+                const caloriesEaten = parseInt(document.getElementById("caloriesEatenInput").value);
+                if (Number.isInteger(caloriesEaten)) {
+                    let caloriesRemaining = parseInt(document.getElementById("caloriesRemaining").textContent);
+                    caloriesRemaining = caloriesRemaining - caloriesEaten;
+                    localStorage.setItem("calories", caloriesRemaining);
+                    _updateFitbitCalories(caloriesRemaining);
+                }
+                _clearCaloriesModal(this);
+            });
+        });
     });
 }();
-
-// document.addEventListener("onclick", function (){
-   
-// })
-
-// const newTr = document.createElement("tr");
-// const newTd1 = document.createElement("td");
-// newTd1.textContent = "content from local storage";
-// const newTd2 = document.createElement("td");
-// newTd2.textContent = "content from local storage";
-// const newTd3 = document.createElement("td");
-// newTd3.textContent = "content from local storage";
-// console.log(newTr);
-// newTr.appendChild(newTd1. newTd2, newTd3);
-// document.getElementById("tbody").appendChild(newTr);
-
-//const links = document.getElementsByClassName("is-link");
- //links.forEach(function(link) {
-    //link.addEventListener("click", function() {
-        //console.log("hey");
-    //});
- //})

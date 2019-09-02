@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,40 +10,23 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
-
 <body>
-    <nav class="navbar is-fixed-top has-background-white-bis" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <span class="navbar-item">
-                <img src="assets/images/meal.png">
-                <span id="caloriesRemaining">2000</span>
-            </span>
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbar">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-        <div id="navbar" class="navbar-menu">
-            <div class="navbar-start">
-                <a href="index.html" class="navbar-item">
-                    Home
+    <div class="container">
+        <nav class="navbar is-fixed-top has-background-white-bis" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <span class="navbar-item is-paddingless">
+                    <a class="button is-marginless is-info" id="caloriesButton">
+                        <img id="mealIcon" src="assets/images/loading.gif">
+                        <span id="caloriesRemaining" style="opacity: 0">----</span>
+                    </a>
+                </span>
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
                 </a>
-                <a href="history.html" class="navbar-item">
-                    History
-                </a>
-                <a href="settings.html" class="navbar-item">
-                    Settings
-                </a>
-                <a id="fitbitLoginButton" class="navbar-item" href="https://www.fitbit.com/oauth2/authorize
-                ?response_type=token
-                &client_id=22B7BF
-                &redirect_uri=https://redchristian77.github.io/Squirtle-Squad
-                &scope=nutrition
-                &expires_in=604800">
-                Login to Fitbit
-            </a>
             </div>
+
         </div>
     </nav> 
     <!-- <br> <br> <br> -->
@@ -61,6 +43,62 @@
         </tbody>
 
     </table>
+    <a class="button is-fullwidth" id="clear-history">Clear All History</a>
+            <div id="navbar" class="navbar-menu">
+                <div class="navbar-start">
+                    <a href="./" class="navbar-item">
+                        Home
+                    </a>
+                    <a href="history.html" class="navbar-item">
+                        History
+                    </a>
+                    <a href="settings.html" class="navbar-item">
+                        Settings
+                    </a>
+                    <a id="fitbitLoginButton" class="navbar-item is-hidden" href="https://www.fitbit.com/oauth2/authorize
+                        ?response_type=token
+                        &client_id=22B7BF
+                        &redirect_uri=https://redchristian77.github.io/Squirtle-Squad
+                        &scope=nutrition
+                        &expires_in=604800">
+                        Fitbit Login
+                    </a>
+                    <a id="fitbitLogoutButton" class="navbar-item is-hidden">
+                        Fitbit Logout
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <section class="main-content is-fullheight" id="content">
+            <div class="container">
+                <div class="section table-container">
+                    <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="history-table">
+                        <thead>
+                            <tr>
+                                <th>Food Item</th>
+                                <th>Serving</th>
+                                <th>Calories</th>
+                                <th>Consumed on</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            <tr>
+                                <td>Apple</td>
+                                <td>1</td>
+                                <td>50</td>
+                                <td>1/1/2000</td>
+                            </tr>
+                            <tr>
+                                <td>Apple</td>
+                                <td>1</td>
+                                <td>50</td>
+                                <td>1/1/2000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
 </body>
-
 </html>
