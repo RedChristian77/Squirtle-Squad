@@ -241,22 +241,9 @@ const script = function () {
                     this.setAttribute("disabled", "disabled");
                 }
             });
-            // This function will alter our table on the history page to add our local storage items
-            function addItems() {
-                const table = document.getElementById('tbody');
-                const foods = JSON.parse(localStorage.my_foods);
-                for (i = 0; i < foods.length; i++) {
-                    const newTr = table.insertRow(0);
-                    const cell1 = newTr.insertCell(0);
-                    const cell2 = newTr.insertCell(1);
-                    const cell3 = newTr.insertCell(2);
-                    const cell4 = newTr.insertCell(3);
-                    cell1.innerHTML = foods[i].food;
-                    cell2.innerHTML = foods[i].servingSize;
-                    cell3.innerHTML = foods[i].calorieCount;
-                    cell4.innerHTML = foods[i].date;
-                }
-            }
+            
+            addItems()
+            
             const clearHistoryButton = document.getElementById("clear-history");
             if (clearHistoryButton) {
                 clearHistoryButton.addEventListener("click", function () {
@@ -303,3 +290,19 @@ const script = function () {
         });
     });
 }();
+// This function will alter our table on the history page to add our local storage items
+function addItems() {
+    const table = document.getElementById('tbody');
+    const foods = JSON.parse(localStorage.my_foods);
+    for (i = 0; i < foods.length; i++) {
+        const newTr = table.insertRow(0);
+        const cell1 = newTr.insertCell(0);
+        const cell2 = newTr.insertCell(1);
+        const cell3 = newTr.insertCell(2);
+        const cell4 = newTr.insertCell(3);
+        cell1.innerHTML = foods[i].food;
+        cell2.innerHTML = foods[i].servingSize;
+        cell3.innerHTML = foods[i].calorieCount;
+        cell4.innerHTML = foods[i].date;
+    }
+}
