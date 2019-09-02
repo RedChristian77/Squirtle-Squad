@@ -177,7 +177,7 @@ const script = function () {
                     itemDiv.append(calorieDiv);
                     //Carb Div
                     let carbDiv = document.createElement("div");
-                    carbDiv.setAttribute("data-carb",data.foods[0].nf_total_carbohydrate);
+                    carbDiv.setAttribute("data-carb", data.foods[0].nf_total_carbohydrate);
                     carbDiv.className += " column";
                     carbDiv.className += " is-mobile";
                     carbDiv.className += " is-half";
@@ -185,7 +185,7 @@ const script = function () {
                     itemDiv.append(carbDiv);
                     //Fats Div
                     let fatsDiv = document.createElement("div");
-                    fatsDiv.setAttribute("data-fats",data.foods[0].nf_total_fat);
+                    fatsDiv.setAttribute("data-fats", data.foods[0].nf_total_fat);
                     fatsDiv.className += " column";
                     fatsDiv.className += " is-mobile";
                     fatsDiv.className += " is-half";
@@ -193,15 +193,15 @@ const script = function () {
                     itemDiv.append(fatsDiv);
                     //Protein Div
                     let proteinDiv = document.createElement("div");
-                    proteinDiv.setAttribute("data-protein",data.foods[0].nf_protein);
+                    proteinDiv.setAttribute("data-protein", data.foods[0].nf_protein);
                     proteinDiv.className += " column";
-                    proteinDiv.className +=" is-mobile";
-                    proteinDiv.classname +=" is-half";
+                    proteinDiv.className += " is-mobile";
+                    proteinDiv.classname += " is-half";
                     itemDiv.append(proteinDiv);
 
                     infoDiv.append(itemDiv);
                 });
-        
+
                 template.getElementsByClassName("content")[0].append(infoDiv);
 
                 //Creating Buttons
@@ -289,25 +289,31 @@ const script = function () {
                     this.setAttribute("disabled", "disabled");
                 }
             });
+            // This function will alter our table on the history page to add our local storage items
+        function addItems() {
+            const table = document.getElementById('tbody');
+            const foods = JSON.parse(localStorage.my_foods);
+            for (i = 0; i < foods.length; i++) {
+                const newTr = table.insertRow(0);
+                const cell1 = newTr.insertCell(0);
+                const cell2 = newTr.insertCell(1);
+                const cell3 = newTr.insertCell(2);
+                const cell4 = newTr.insertCell(3);
+                cell1.innerHTML = foods[i].food;
+                cell2.innerHTML = foods[i].servingSize;
+                cell3.innerHTML = foods[i].calorieCount;
+                cell4.innerHTML = foods[i].date;
+            }
+        }
+        //runs addItems on page load.
+        window.onload = addItems;
+        });
+        document.getElementById("clear-history").addEventListener("click", function () {
+            //set the my_foods array to a blank array
+            const newArray = [];
+            localStorage.getItem("my_foods");
+            localStorage.setItem(newArray, "Recently Cleared");
+            document.getElementById("tbody").innerHTML = localStorage.getItem(newArray);
         });
     });
 }();
-
-// This function will alter our table on the history page to add our local storage items
-function addItems() {
-    const table = document.getElementById('tbody');
-    const foods = JSON.parse(localStorage.my_foods);
-    for (i = 0; i < foods.length; i++) {
-        const newTr = table.insertRow(0);
-        const cell1 = newTr.insertCell(0);
-        const cell2 = newTr.insertCell(1);
-        const cell3 = newTr.insertCell(2);
-        const cell4 = newTr.insertCell(3);
-        cell1.innerHTML = foods[i].food;
-        cell2.innerHTML = foods[i].servingSize;
-        cell3.innerHTML = foods[i].calorieCount;
-        cell4.innerHTML = foods[i].date;
-    }
-}
-//runs addItems on page load.
-window.onload = addItems;
