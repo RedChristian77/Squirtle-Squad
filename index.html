@@ -125,7 +125,7 @@
 						Header
 					</p>
 					<a class="card-header-icon ate-food-button button is-info" aria-label="Log calories">
-						Log&nbsp; <span class="calories">0</span>&nbsp;calories
+						Log&nbsp; <span class="calories" id="caloriesID">0</span>&nbsp;calories
 					</a>
                 </div>
                 <div class="card-content">
@@ -137,14 +137,14 @@
 							<section class="performance-facts">
 							  <header class="performance-facts__header">
 								<h1 class="performance-facts__title">Nutrition Facts</h1>
-								<p>Serving Size 1/2 cup (about 82g)</p>
+								<p id="servingSize">Serving Size 1/2 cup (about 82g)</p>
 							  </header>
 							  <table class="performance-facts__table">
 								<tbody>
 								  <tr>
 									<th colspan="2">
 									  <b>Calories</b>
-									  <span class="has-text-info has-text-weight-bold is-size-5 calories">200</span>
+									  <span class="has-text-info has-text-weight-bold is-size-5 calories" id="foodCalories">200</span>
 									</th>
 									<td>
 									</td>
@@ -156,7 +156,7 @@
 								  </tr>
 								  <tr>
 									<th colspan="2">
-									  <b>Total Fat</b> 14g
+									  <b>Total Fat</b><span id="totalFat"></span>g
 									</th>
 									<td>
 									  <b>22%</b>
