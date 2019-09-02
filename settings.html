@@ -57,6 +57,9 @@
             <div class="container">
                 <div class="section">
                     <div class="card">
+                            <div class="card-header has-background-light">
+                                <p class="card-header-title">Settings</p>
+                            </div>
                         <div class="card-content">
                             <div id="manuel-input">
                                 <div class="field">
@@ -89,38 +92,76 @@
         
                                 <div class="field is-grouped">
                                     <div class="control">
-                                        <button class="button is-link" id="submit2">Submit</button>
+                                        <button class="button is-link" id="submit2">Update</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="table-container">
-                    <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="settings-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Calories</th>
-                                <th>Gender</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-info">
-                            <tr>
-                                <td>John</td>
-                                <td>2100</td>
-                                <td>Male</td>
-                            </tr>
-                            <tr>
-                                <td>Jill</td>
-                                <td>1900</td>
-                                <td>Female</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-container">
+                        <table class="table is-bordered is-striped is-hoverable is-fullwidth" id="settings-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Calories</th>
+                                    <th>Gender</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-info">
+                                <tr>
+                                    <td>John</td>
+                                    <td>2100</td>
+                                    <td>Male</td>
+                                </tr>
+                                <tr>
+                                    <td>Jill</td>
+                                    <td>1900</td>
+                                    <td>Female</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
+		<div class="modal" id="calorieLogModal">
+			<div class="modal-background"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+					<p class="modal-card-title">Update calorie log</p>
+					<button class="delete clear-form" aria-label="close"></button>
+				</header>
+				<section class="modal-card-body">
+					<div class="field">
+						<div class="control">
+                            <label>
+                                Manually log calories against your Daily Calorie Goal:
+                                <input class="input is-info" type="text" placeholder="Calories eaten" id="caloriesEatenInput">
+                            </label>
+                        </div>
+					</div>
+				</section>
+				<footer class="modal-card-foot">
+					<button class="button is-info" id="saveCalorieGoal">Save changes</button>
+					<button class="button clear-form">Cancel</button>
+				</footer>
+			</div>
+		</div>
+		<div class="modal" id="messageModal">
+			<div class="modal-background"></div>
+			<div class="modal-content">
+				<article class="message is-warning">
+					<div class="message-header">
+						<p>Warning</p>
+						<button class="delete close-modal" aria-label="delete"></button>
+					</div>
+					<div class="message-body"></div>
+					<div class="message-footer">
+						<a class="button is-warning close-modal">OK</a>
+					</div>
+				</article>
+			</div>
+		</div>
     </div>
 </body>
 
