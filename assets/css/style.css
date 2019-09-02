@@ -54,6 +54,7 @@ div.food-image-div {
 }
 #caloriesButton {
 	height: 100%;
+	border-radius: 0;
 }
 #searchField {
 	margin-bottom: 0.25rem;
