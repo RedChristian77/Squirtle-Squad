@@ -48,70 +48,105 @@
         </div>
     </nav>
     <div>
-    <div id="manuel-input">
-        <div class="field">
-            <label class="label">Name</label>
-            <div class="control">
-                <input id= "name-input"class="input" type="text" placeholder="Text input">
+        <div id="manuel-input">
+            <div class="field">
+                <label class="label">Name</label>
+                <div class="control">
+                    <input id="name-input" class="input" type="text" placeholder="Text input">
+                </div>
             </div>
-        </div>
 
-        <div class="field">
-            <label class="label">Calories</label>
-            <div class="control has-icons-left has-icons-right">
-                <input id= "calorie-input" class="input is-success" type="text" placeholder="Text input" value="2000">
-                <span class="icon is-small is-left">
-                    <i class="fas fa-user"></i>
-                </span>
-                <span class="icon is-small is-right">
-                    <i class="fas fa-check"></i>
-                </span>
+            <div class="field">
+                <label class="label">Calories</label>
+                <div class="control has-icons-left has-icons-right">
+                    <input id="calorie-input" class="input is-success" type="text" placeholder="Text input"
+                        value="2000">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                    </span>
+                </div>
+                <p class="help is-success">2000</p>
             </div>
-            <p class="help is-success">2000</p>
-        </div>
 
-        <div class="field">
-            <div class="control">
-                <label class="radio">
-                    <input type="radio" name="gender" value="male">
-                    Male
-                </label>
-                <label class="radio">
-                    <input type="radio" name="gender" value="female">
-                    Female
-                </label>
+            <div class="field">
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="gender" value="male">
+                        Male
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="gender" value="female">
+                        Female
+                    </label>
+                </div>
             </div>
-        </div>
 
-        <div class="field is-grouped">
-            <div class="control">
-                <button class="button is-link">Submit</button>
-            </div>
-            <div class="control">
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-link" id="submit2">Submit</button>
+                </div>
+                <!-- <div class="control">
                 <button class="button is-text">Cancel</button>
+            </div> -->
             </div>
         </div>
-    </div>
     </div>
     <div>
         <table class="table" id="settings-table">
             <thead>
-        <tr>
-            <th>Name</th>
-            <th>Calories</th>
-            <th>Gender</th>
-          </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <th>Dan</th>
-                  <th>2000</th>
-                  <th>Male</th>
-            </tr>
-            
+                <tr>
+                    <th>Name</th>
+                    <th>Calories</th>
+                    <!-- <th>Fats</th>
+            <th>Carbs</th>
+            <th>Proteins</th> -->
+                    <th>Gender</th>
+                </tr>
+            </thead>
+            <tbody id="table-info">
+
             </tbody>
-          </table>
+        </table>
     </div>
 </body>
+
+<script>
+
+    document.getElementById("submit2").addEventListener("click", function
+        (event) {
+        event.preventDefault()
+
+        const name = document.getElementById("name-input").value.trim()
+        const calories = document.getElementById("calorie-input").value.trim()
+        const gender = document.querySelector('input[name = "gender"]:checked').value;
+        console.log(name, calories, gender)
+
+        localStorage.setItem("name", name)
+        localStorage.setItem("calories", calories)
+        localStorage.setItem("gender", gender)
+
+        const newName = localStorage.getItem("name")
+        const newCalories = localStorage.getItem("calories")
+        const newGender = localStorage.getItem("gender")
+
+        document.getElementById("table-info").insertAdjacentHTML("beforeend",
+            "<tr><td>" + newName + "</td><td>" + newCalories + "</td><td>" + newGender + "</td></tr>")
+  
+            document.getElementById("name-input").value=""
+            document.getElementById("calorie-input").value=""
+            document.getElementById("name-input").value=""
+        
+        })
+
+
+
+// let gender = document.querySelector('input[name = "gender"]:checked').value;
+// document.writeln("You entered " + gender + " for your gender<br>");
+
+
+</script>
 
 </html>
