@@ -13,7 +13,53 @@ const script = function () {
 		document.getElementById("fitbitLoginButton").style.display = "block";
 	}
 
-	// get day's remaining calories from fitbit
+    const _clearCaloriesModal = function (element) {
+        const modalElement = element.closest(".modal");
+        modalElement.classList.remove("is-active");
+        modalElement.querySelectorAll("input").forEach(
+            input => {
+                input.value = "";
+                input.checked = false;
+            }
+        );
+    }
+
+    const _deleteAccessToken = function () {
+        // otherwise get rid of the access_token param so we can grab it again next time
+        delete _params["access_token"];
+        localStorage.setItem("authentication", JSON.stringify(_params));
+        _displayFitbitLogin(true);
+    }
+
+    const _displayMessage = function (message) {
+        const messageModal = document.getElementById("messageModal");
+        messageModal.getElementsByClassName("message-body")[0].innerHTML = message;
+        messageModal.classList.add("is-active");
+    }
+
+    const _displayCalories = function (calories, timeout) {
+        document.getElementById("mealIcon").src = "assets/images/loading.gif";
+        document.getElementById("caloriesRemaining").style.opacity = "0";
+        setTimeout(function () {
+            if (calories !== void 0) {
+                document.getElementById("caloriesRemaining").textContent = calories;
+            }
+            document.getElementById("mealIcon").src = "assets/images/meal.png";
+            document.getElementById("caloriesRemaining").style.opacity = "1";
+        }, timeout);
+    }
+
+    const _displayFitbitLogin = function (flag) {
+        if (flag) {
+            document.getElementById("fitbitLoginButton").classList.remove("is-hidden");
+            document.getElementById("fitbitLogoutButton").classList.add("is-hidden");
+        } else {
+            document.getElementById("fitbitLoginButton").classList.add("is-hidden");
+            document.getElementById("fitbitLogoutButton").classList.remove("is-hidden");
+        }
+    }
+
+    // get day's remaining calories from fitbit
     const _getFitbitCalories = function () {
 		if (_params["access_token"] !== void 0) {
 			fetch("https://api.fitbit.com/1/user/" + _params["user_id"] + "/foods/log/goal.json", {
@@ -40,7 +86,7 @@ const script = function () {
 		}
     }
 
-	// encodes the url parameters into an object
+    // encodes the url parameters into an object
     const _getUrlVars = function () {
         const vars = JSON.parse(localStorage.getItem("authentication")) || {};
         window.location.href.replace(/[?&#]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
@@ -68,7 +114,7 @@ const script = function () {
         }
     }
 
-	// post to fitbit to update remaining calories
+    // post to fitbit to update remaining calories
     const _updateFitbitCalories = function (calories) {
 		if (_params["access_token"] !== void 0) {
 			document.getElementById("caloriesRemaining").style.opacity = "0";
@@ -97,7 +143,7 @@ const script = function () {
 		}
     }
 
-	// search for a food
+    // search for a food
     const _searchRequest = function (event) {
         event.preventDefault();
         let headers = {
@@ -183,25 +229,22 @@ const script = function () {
                     template.getElementById("proteinID").innerHTML = Math.floor(data_nf_protein);
                 });
 
-                //Creating Buttons
-                let buttonsDiv = document.createElement("div");
-                buttonsDiv.className += " column";
-                buttonsDiv.className += " is-one-quarter";
-                buttonsDiv.className += " is-mobile";
-                let createButton = document.createElement("a");
-                createButton.classList.add("button");
-                createButton.classList.add("is-link");
-                createButton.innerHTML = "Add +";
+                const caloriesDiv = template.getElementsByClassName("calories")[0];
+                caloriesDiv.innerHTML = calories;//Need to figure out solution for this area, endpoint for common doesn't give calories
+                template.getElementsByClassName("calories")[1].innerHTML = calories;
 
-                createButton.addEventListener('click', () => {
-                    console.log(element.food_name);
-                    const foods = JSON.parse(localStorage.my_foods)
-                    foods.push(element.food_name);
-                    localStorage.my_foods = JSON.stringify(foods);
-                    createButton.setAttribute('disabled', true);
+                const createButton = template.getElementsByClassName("ate-food-button")[0];
+                createButton.setAttribute("data-calories", calories);
+                createButton.addEventListener("click", function clickHandler() {
+                    if (localStorage.getItem("calories") !== null) {
+                        const caloriesEaten = parseInt(this.getAttribute("data-calories"));
+                        const calories = parseInt(document.getElementById("caloriesRemaining").textContent) - caloriesEaten;
+                        localStorage.setItem("calories", calories);
+                        _updateFitbitCalories(calories);
+                    } else {
+                        _displayMessage("You cannot add these calories yet. Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
+                    }
                 });
-                //Spot here for buttons queryselector
-                
                 //
                 buttonsDiv.append(createButton);
                 template.getElementsByClassName("content")[0].append(buttonsDiv);
@@ -209,20 +252,13 @@ const script = function () {
                 document.getElementById("cardContainer").append(template);
             
     }
-	// run these things after the body has loaded since our script is in the head tag
+
+    // run these things after the body has loaded since our script is in the head tag
     document.addEventListener("DOMContentLoaded", function () {
         _params = _getUrlVars();
-		let calories = localStorage.getItem("calories");
-		document.getElementById("caloriesRemaining").textContent = calories;
-		// if there's an access token saved
-		if (_params["access_token"] !== void 0) {
-			localStorage.setItem("authentication", JSON.stringify(_params));
-			document.getElementById("fitbitLoginButton").style.display = "none";
-			calories = _getFitbitCalories();
-		}
-		if (calories === null) {
-			alert("Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
-		}
+        _getFitbitCalories();
+        // if there's an access token saved
+        _displayFitbitLogin(_params["access_token"] === void 0);
         _initBulma();
 
         const form = document.getElementById("form");
@@ -240,22 +276,9 @@ const script = function () {
                     this.setAttribute("disabled", "disabled");
                 }
             });
-            // This function will alter our table on the history page to add our local storage items
-            function addItems() {
-                const table = document.getElementById('tbody');
-                const foods = JSON.parse(localStorage.my_foods);
-                for (i = 0; i < foods.length; i++) {
-                    const newTr = table.insertRow(0);
-                    const cell1 = newTr.insertCell(0);
-                    const cell2 = newTr.insertCell(1);
-                    const cell3 = newTr.insertCell(2);
-                    const cell4 = newTr.insertCell(3);
-                    cell1.innerHTML = foods[i].food;
-                    cell2.innerHTML = foods[i].servingSize;
-                    cell3.innerHTML = foods[i].calorieCount;
-                    cell4.innerHTML = foods[i].date;
-                }
-            }
+            
+            addItems()
+            
             const clearHistoryButton = document.getElementById("clear-history");
             if (clearHistoryButton) {
                 clearHistoryButton.addEventListener("click", function () {
@@ -302,3 +325,19 @@ const script = function () {
         });
     });
 }();
+// This function will alter our table on the history page to add our local storage items
+function addItems() {
+    const table = document.getElementById('tbody');
+    const foods = JSON.parse(localStorage.my_foods);
+    for (i = 0; i < foods.length; i++) {
+        const newTr = table.insertRow(0);
+        const cell1 = newTr.insertCell(0);
+        const cell2 = newTr.insertCell(1);
+        const cell3 = newTr.insertCell(2);
+        const cell4 = newTr.insertCell(3);
+        cell1.innerHTML = foods[i].food;
+        cell2.innerHTML = foods[i].servingSize;
+        cell3.innerHTML = foods[i].calorieCount;
+        cell4.innerHTML = foods[i].date;
+    }
+}
