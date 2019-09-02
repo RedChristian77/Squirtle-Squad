@@ -182,19 +182,8 @@ const script = function () {
                 let image = template.getElementsByClassName("food-image")[0];
                 image.src = datum.photo.thumb;
 
-                //Div for Information added
-
-                let infoDiv = document.createElement("div");
-                infoDiv.className += " column";
-                infoDiv.className += " is-half";
-                infoDiv.className += " is-mobile";
-
-                infoDiv.innerHTML = "Calories: " + //added a new fetch request to take care of the calorie count
-                    template.getElementsByClassName("content")[0].append(infoDiv);
-
-                infoDiv.innerHTML = "Loading " + "<img src='assets/images/loading.gif'>";
                 //begin the fetch request for each items details
-                let queryRequest = encodeURI(element.food_name);
+                let queryRequest = encodeURI(datum.food_name);
 
                 let body = new URLSearchParams("query=" + queryRequest);
 
@@ -205,92 +194,7 @@ const script = function () {
                 }).then(function (response) {
                     return response.json();
                 }).then(function (data) {
-                    console.log(data);
-                    //create divs and put information inside said divs
-                    infoDiv.innerHTML = "";
-                    let itemDiv = document.createElement("div");
-                    itemDiv.className += "columns is-mobile";
-                    //Calorie Div
-                    let calorieDiv = document.createElement("div");
-                    calorieDiv.setAttribute("data-calorie", data.foods[0].nf_calories);
-                    calorieDiv.className += " column";
-                    calorieDiv.classname += " is-mobile";
-                    calorieDiv.className += " is-full";
-                    calorieDiv.innerHTML = "Calories: " + data.foods[0].nf_calories;
-                    itemDiv.append(calorieDiv);
-                    //Carb Div
-                    let carbDiv = document.createElement("div");
-                    carbDiv.setAttribute("data-carb", data.foods[0].nf_total_carbohydrate);
-                    carbDiv.className += " column";
-                    carbDiv.className += " is-mobile";
-                    carbDiv.className += " is-half";
-                    carbDiv.innerHTML = "Carbs: " + data.foods[0].nf_total_carbohydrate;
-                    itemDiv.append(carbDiv);
-                    //Fats Div
-                    let fatsDiv = document.createElement("div");
-                    fatsDiv.setAttribute("data-fats", data.foods[0].nf_total_fat);
-                    fatsDiv.className += " column";
-                    fatsDiv.className += " is-mobile";
-                    fatsDiv.className += " is-half";
-                    fatsDiv.innerHTML = "Fats: " + data.foods[0].nf_total_fat;
-                    itemDiv.append(fatsDiv);
-                    //Protein Div
-                    let proteinDiv = document.createElement("div");
-                    proteinDiv.setAttribute("data-protein", data.foods[0].nf_protein);
-                    proteinDiv.className += " column";
-                    proteinDiv.className += " is-mobile";
-                    proteinDiv.classname += " is-half";
-                    itemDiv.append(proteinDiv);
-
-                    infoDiv.append(itemDiv);
                 });
-
-                template.getElementsByClassName("content")[0].append(infoDiv);
-
-                //Creating Buttons
-                let buttonsDiv = document.createElement("div");
-                buttonsDiv.className += " column";
-                buttonsDiv.className += " is-one-quarter";
-                buttonsDiv.className += " is-mobile";
-                let createButton = document.createElement("a");
-                createButton.classList.add("button");
-                createButton.classList.add("is-link");
-                createButton.innerHTML = "Add +";
-                // creates clcik event listener on the Add + button which then pushes all of the relative data to local storage
-                createButton.addEventListener('click', async () => {
-                    const send = {
-                        query: element.food_name
-                    };
-                    //fetch request for nutrients. Specifically calories.
-                    fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
-                        method: 'Post',
-                        body: JSON.stringify(send),
-                        headers: {
-                            "x-app-key": "dda87a7beb9557383f39f2753bca8f84",
-                            "x-remote-user-id": 0,
-                            "x-app-id": "2aab2c41",
-                            "Content-Type": "application/json"
-                        },
-                    }).then(function (response) {
-                        return response.json();
-                    }).then(function (nutrientData) {
-                        console.log('nutrientdata', nutrientData.foods[0].nf_calories);
-                        const date = JSON.stringify.parseInt(new Date());
-                        console.log(element.food_name);
-                        const foods = JSON.parse(localStorage.my_foods);
-                        const currentFood = {
-                            date: date,
-                            food: element.food_name,
-                            servingSize: element.serving_unit,
-                            calorieCount: nutrientData.foods[0].nf_calories
-                        }
-                        //pushes to local storage array and disables button so you can't do it twice.
-                        foods.push(currentFood);
-                        localStorage.my_foods = JSON.stringify(foods);
-                        createButton.setAttribute('disabled', true);
-                    });
-                });
-                //Spot here for buttons queryselector
 
                 const caloriesDiv = template.getElementsByClassName("calories")[0];
                 caloriesDiv.innerHTML = calories;//Need to figure out solution for this area, endpoint for common doesn't give calories
@@ -322,7 +226,7 @@ const script = function () {
         _displayFitbitLogin(_params["access_token"] === void 0);
         _initBulma();
 
-        const form = document.getElementById('form');
+        const form = document.getElementById("form");
         if (form) {
             form.addEventListener("submit", _searchRequest);
         }
@@ -337,65 +241,65 @@ const script = function () {
                     this.setAttribute("disabled", "disabled");
                 }
             });
-            addItems()
-        });
-        document.getElementById("clear-history").addEventListener("click", function () {
-            //set the my_foods array to a blank array
-            const newArray = [];
-            localStorage.getItem("my_foods");
-            localStorage.setItem(newArray, "Recently Cleared");
-            document.getElementById("tbody").innerHTML = localStorage.getItem(newArray);
-        });
-        document.getElementById("fitbitLogoutButton").addEventListener("click", function () {
-            _deleteAccessToken();
-            _displayFitbitLogin(true);
-        });
-        document.getElementById("form").addEventListener("submit", _searchRequest);
-        document.getElementById("caloriesButton").addEventListener("click", function () {
-            if (localStorage.getItem("calories") !== null) {
-                document.getElementById("calorieLogModal").classList.add("is-active");
-            } else {
-                _displayMessage("You cannot log calories yet. Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
+            // This function will alter our table on the history page to add our local storage items
+            function addItems() {
+                const table = document.getElementById('tbody');
+                const foods = JSON.parse(localStorage.my_foods);
+                for (i = 0; i < foods.length; i++) {
+                    const newTr = table.insertRow(0);
+                    const cell1 = newTr.insertCell(0);
+                    const cell2 = newTr.insertCell(1);
+                    const cell3 = newTr.insertCell(2);
+                    const cell4 = newTr.insertCell(3);
+                    cell1.innerHTML = foods[i].food;
+                    cell2.innerHTML = foods[i].servingSize;
+                    cell3.innerHTML = foods[i].calorieCount;
+                    cell4.innerHTML = foods[i].date;
+                }
             }
-        });
-        document.querySelectorAll(".clear-form").forEach(
-            deleteButton => {
-                deleteButton.addEventListener("click", function () { _clearCaloriesModal(deleteButton) });
-            }
-        );
-        document.querySelectorAll(".close-modal").forEach(
-            deleteButton => {
-                deleteButton.addEventListener("click", function () {
-                    this.closest(".modal").classList.remove("is-active");
+            const clearHistoryButton = document.getElementById("clear-history");
+            if (clearHistoryButton) {
+                clearHistoryButton.addEventListener("click", function () {
+                    //set the my_foods array to a blank array
+                    const newArray = [];
+                    localStorage.getItem("my_foods");
+                    localStorage.setItem(newArray, "Recently Cleared");
+                    document.getElementById("tbody").innerHTML = localStorage.getItem(newArray);
                 });
             }
-        );
-        document.getElementById("saveCalorieGoal").addEventListener("click", function () {
-            const caloriesEaten = parseInt(document.getElementById("caloriesEatenInput").value);
-            if (Number.isInteger(caloriesEaten)) {
-                let caloriesRemaining = parseInt(document.getElementById("caloriesRemaining").textContent);
-                caloriesRemaining = caloriesRemaining - caloriesEaten;
-                localStorage.setItem("calories", caloriesRemaining);
-                _updateFitbitCalories(caloriesRemaining);
-            }
-            _clearCaloriesModal(this);
+            document.getElementById("fitbitLogoutButton").addEventListener("click", function () {
+                _deleteAccessToken();
+                _displayFitbitLogin(true);
+            });
+            document.getElementById("caloriesButton").addEventListener("click", function () {
+                if (localStorage.getItem("calories") !== null) {
+                    document.getElementById("calorieLogModal").classList.add("is-active");
+                } else {
+                    _displayMessage("You cannot log calories yet. Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
+                }
+            });
+            document.querySelectorAll(".clear-form").forEach(
+                deleteButton => {
+                    deleteButton.addEventListener("click", function () {_clearCaloriesModal(deleteButton)});
+                }
+            );
+            document.querySelectorAll(".close-modal").forEach(
+                deleteButton => {
+                    deleteButton.addEventListener("click", function () {
+                        this.closest(".modal").classList.remove("is-active");
+                    });
+                }
+            );
+            document.getElementById("saveCalorieGoal").addEventListener("click", function () {
+                const caloriesEaten = parseInt(document.getElementById("caloriesEatenInput").value);
+                if (Number.isInteger(caloriesEaten)) {
+                    let caloriesRemaining = parseInt(document.getElementById("caloriesRemaining").textContent);
+                    caloriesRemaining = caloriesRemaining - caloriesEaten;
+                    localStorage.setItem("calories", caloriesRemaining);
+                    _updateFitbitCalories(caloriesRemaining);
+                }
+                _clearCaloriesModal(this);
+            });
         });
     });
 }();
-
-// This function will alter our table on the history page to add our local storage items
-function addItems() {
-    const table = document.getElementById('tbody');
-    const foods = JSON.parse(localStorage.my_foods);
-    for (i = 0; i < foods.length; i++) {
-        const newTr = table.insertRow(0);
-        const cell1 = newTr.insertCell(0);
-        const cell2 = newTr.insertCell(1);
-        const cell3 = newTr.insertCell(2);
-        const cell4 = newTr.insertCell(3);
-        cell1.innerHTML = foods[i].food;
-        cell2.innerHTML = foods[i].servingSize;
-        cell3.innerHTML = foods[i].calorieCount;
-        cell4.innerHTML = foods[i].date;
-    }
-}
