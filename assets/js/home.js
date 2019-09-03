@@ -30,9 +30,11 @@ const home = function () {
             }
             else{
             nutrientsDiv(data.branded[0]);
-            //data.branded.forEach(datum => {
-               
-				//});
+            data.branded.forEach(datum => {
+               nutrientsDiv(datum);
+                });
+            data.common.forEach(datum =>{
+              nutrientsDiv(datum);  });
             }
         });
     }
