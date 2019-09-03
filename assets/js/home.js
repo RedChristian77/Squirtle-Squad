@@ -91,7 +91,7 @@ const home = function () {
 						const foodName = this.getAttribute("data-name");
 						const calories = parseInt(document.getElementById("caloriesRemaining").textContent) - caloriesEaten;
 						localStorage.setItem("calories", calories);
-						//_updateFitbitCalories(calories);
+						script.updateFitbitCalories(calories);
                         const myFoods = JSON.parse(localStorage.getItem("my_foods")) || [];
                         const date = JSON.stringify(new Date());
                         const myFood = {

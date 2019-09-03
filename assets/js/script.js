@@ -1,4 +1,4 @@
-const script = function () {
+const script = (function () {
     let _params = {};
 
 	const _clearCaloriesModal = function (element) {
@@ -194,4 +194,8 @@ const script = function () {
             _clearCaloriesModal(this);
         });
     });
-}();
+
+    return {
+        updateFitbitCalories: _updateFitbitCalories
+    }
+})();
