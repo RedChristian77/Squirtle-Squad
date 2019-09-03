@@ -1,7 +1,8 @@
-const history = function () {    
-    const _addHistoryItems = function() {
+const history = (function () {
+    const _addHistoryItems = function () {
         const table = document.getElementById("historyTbody");
         if (table) {
+            table.innerHTML = "";
             const foods = JSON.parse(localStorage.getItem("my_foods")) || [];
             for (i = 0; i < foods.length; i++) {
                 const newTr = table.insertRow(0);
@@ -19,14 +20,14 @@ const history = function () {
                 }
                 hours = (hours < 10 ? "0" : "") + hours;
                 const minutes = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-                const dateString = (date.getMonth() + 1) + "/" + (date.getDate() + 1) + "/" + (date.getFullYear()) 
-                                    + " " + hours + ":" + minutes + (isPm ? "pm" : "am");
+                const dateString = (date.getMonth() + 1) + "/" + (date.getDate() + 1) + "/" + (date.getFullYear())
+                    + " " + hours + ":" + minutes + (isPm ? "pm" : "am");
                 cell4.innerHTML = dateString;
             }
         }
     }
 
-	// run these things after the body has loaded since our script is in the head tag
+    // run these things after the body has loaded since our script is in the head tag
     document.addEventListener("DOMContentLoaded", function () {
         _addHistoryItems();
         const clearHistoryButton = document.getElementById("clear-history");
@@ -38,4 +39,7 @@ const history = function () {
             });
         }
     });
-}();
+    return {
+        addHistoryItems: _addHistoryItems
+    }
+})();
