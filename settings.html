@@ -151,37 +151,4 @@
 		</div>
     </div>
 </body>
-
-<script>
-
-    document.getElementById("submit2").addEventListener("click", function
-        (event) {
-        event.preventDefault()
-
-        const name = document.getElementById("name-input").value.trim()
-        const calories = document.getElementById("calorie-input").value.trim()
-        const gender = document.querySelector('input[name = "gender"]:checked').value;
-        console.log(name, calories, gender)
-
-        localStorage.setItem("name", name)
-        localStorage.setItem("calories", calories)
-        localStorage.setItem("gender", gender)
-
-        const newName = localStorage.getItem("name")
-        const newCalories = localStorage.getItem("calories")
-        const newGender = localStorage.getItem("gender")
-
-        document.getElementById("table-info").insertAdjacentHTML("beforeend",
-            "<tr><td>" + newName + "</td><td>" + newCalories + "</td><td>" + newGender + "</td></tr>")
-  
-            document.getElementById("name-input").value=""
-            document.getElementById("calorie-input").value=""
-            
-            document.getElementById("caloriesRemaining").textContent = calories;
-        
-        })
-
-
-</script>
-
 </html>
