@@ -232,6 +232,9 @@ const script = (function () {
     });
 
     return {
+        displayMessage: function(message) {
+            _displayMessage(message);
+        },
         updateCalories: function(calories, logDate) {
             _updateFitbitCalories(calories);
             _updateLocalCalories(calories, logDate);
