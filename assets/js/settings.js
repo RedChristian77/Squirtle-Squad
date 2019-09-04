@@ -9,7 +9,7 @@
             
         });
         
-    document.getElementById("submit2").addEventListener("click", function
+    document.getElementById("form1").addEventListener("submit", function
         (event) {
         event.preventDefault()
 
