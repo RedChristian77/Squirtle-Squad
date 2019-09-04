@@ -1,5 +1,5 @@
 var storedNames = JSON.parse(localStorage.getItem("names"));
-const script = function () {
+const script = (function () {
     let _params = {};
 
     const _clearCaloriesModal = function (element) {
@@ -48,46 +48,71 @@ const script = function () {
         }
     }
 
-    // get day's remaining calories from fitbit
+	// get day's remaining calories from fitbit
     const _getFitbitCalories = function () {
-        const completeFunction = function (calories) {
-            if (calories === void 0) {
-                calories = localStorage.getItem("calories");
-            }
-            document.getElementById("caloriesRemaining").textContent = calories;
-            if (calories === null) {
-                _displayMessage("This page won't work until you set a Calorie Goal. Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
-            } else {
-                _displayCalories(calories);
-            }
-        }
-
-        if (_params["access_token"] !== void 0) {
-            fetch("https://api.fitbit.com/1/user/" + _params["user_id"] + "/foods/log/goal.json", {
-                method: "GET",
-                headers: {
-                    "Authorization": "Bearer " + _params["access_token"]
+		const completeFunction = function (calories) {
+			if (calories === void 0) {
+				calories = _getLocalCalories();
+			}
+			document.getElementById("caloriesRemaining").textContent = calories;
+			if (calories === null) {
+                var urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get("redirect") !== "settings") {
+                    window.location = "./settings.html?redirect=settings";
+                } else {
+                    _displayMessage("This page won't work until you set a Calorie Goal. Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
                 }
-            })
-                .then(function (result) {
-                    return result.json();
-                })
-                .then(function (data) {
-                    // if there are goals (ie we didnt get an error)
-                    if (data.goals) {
-                        localStorage.setItem("authentication", JSON.stringify(_params));
-                        document.getElementById("caloriesRemaining").textContent = data.goals.calories;
-                        // save the new remaining calories
-                        localStorage.setItem("calories", data.goals.calories);
-                        completeFunction(data.goals.calories);
-                    } else {
-                        _deleteAccessToken();
-                        completeFunction();
-                    }
-                });
-        } else {
-            completeFunction();
+			} else {
+				_displayCalories(calories);
+			}
+		}
+		
+		if (_params["access_token"] !== void 0) {
+			fetch("https://api.fitbit.com/1/user/" + _params["user_id"] + "/foods/log/goal.json", {
+				method: "GET",
+				headers: {
+					"Authorization": "Bearer " + _params["access_token"]
+				}
+			})
+			.then(function (result) {
+				return result.json();
+			})
+			.then(function (data) {
+				// if there are goals (ie we didnt get an error)
+				if (data.goals) {
+					localStorage.setItem("authentication", JSON.stringify(_params));
+					document.getElementById("caloriesRemaining").textContent = data.goals.calories;
+                    // save the new remaining calories
+					localStorage.setItem("calories", data.goals.calories);
+					completeFunction(data.goals.calories);
+				} else {
+					_deleteAccessToken();
+					completeFunction();
+				}
+			});
+		} else {
+			completeFunction();
+		}
+    }
+
+    const _getLocalCalories = function () {
+        const floorDate = function (date) {
+            date.setHours(0);
+            date.setMinutes(0);
+            date.setSeconds(0);
+            date.setMilliseconds(0);
+            return date;
         }
+        const calories = localStorage.getItem("calories");
+        const lastEatenDateString = localStorage.getItem("lastEatenDate");
+        if (lastEatenDateString !== null) {
+            const date = floorDate(new Date(localStorage.getItem("lastEatenDate")));
+            const newDate = floorDate(new Date());
+            if (date !== newDate) {
+                return localStorage.getItem("calorieGoal");
+            }
+        }
+        return calories;
     }
 
     // encodes the url parameters into an object
@@ -144,6 +169,15 @@ const script = function () {
             _displayCalories(calories, 250);
         }
     }
+    
+    const _updateLocalCalories = function (caloriesRemaining, logDate) {
+        localStorage.setItem("calories", caloriesRemaining);
+        if (logDate) {
+            const date = new Date();
+            date.setDate(date.getDate() - 1);
+            localStorage.setItem("timeLastEaten", JSON.stringify(date));
+        }
+    }
 
     // run these things after the body has loaded since our script is in the head tag
     document.addEventListener("DOMContentLoaded", function () {
@@ -191,10 +225,16 @@ const script = function () {
             if (Number.isInteger(caloriesEaten)) {
                 let caloriesRemaining = parseInt(document.getElementById("caloriesRemaining").textContent);
                 caloriesRemaining = caloriesRemaining - caloriesEaten;
-                localStorage.setItem("calories", caloriesRemaining);
-                _updateFitbitCalories(caloriesRemaining);
+                this.updateCalories(caloriesRemaining, true);
             }
             _clearCaloriesModal(this);
         });
     });
-}();
+
+    return {
+        updateCalories: function(calories, logDate) {
+            _updateFitbitCalories(calories);
+            _updateLocalCalories(calories, logDate);
+        }
+    }
+})();
