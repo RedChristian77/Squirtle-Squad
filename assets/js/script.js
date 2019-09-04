@@ -1,4 +1,3 @@
-var storedNames = JSON.parse(localStorage.getItem("names"));
 const script = (function () {
     let _params = {};
 
@@ -18,12 +17,6 @@ const script = (function () {
         delete _params["access_token"];
         localStorage.setItem("authentication", JSON.stringify(_params));
         _displayFitbitLogin(true);
-    }
-
-    const _displayMessage = function (message) {
-        const messageModal = document.getElementById("messageModal");
-        messageModal.getElementsByClassName("message-body")[0].innerHTML = message;
-        messageModal.classList.add("is-active");
     }
 
     const _displayCalories = function (calories, timeout) {
@@ -46,6 +39,12 @@ const script = (function () {
             document.getElementById("fitbitLoginButton").classList.add("is-hidden");
             document.getElementById("fitbitLogoutButton").classList.remove("is-hidden");
         }
+    }
+
+    const _displayMessage = function (message) {
+        const messageModal = document.getElementById("messageModal");
+        messageModal.getElementsByClassName("message-body")[0].innerHTML = message;
+        messageModal.classList.add("is-active");
     }
 
 	// get day's remaining calories from fitbit
@@ -232,6 +231,9 @@ const script = (function () {
     });
 
     return {
+        displayMessage: function(message) {
+            _displayMessage(message);
+        },
         updateCalories: function(calories, logDate) {
             _updateFitbitCalories(calories);
             _updateLocalCalories(calories, logDate);
