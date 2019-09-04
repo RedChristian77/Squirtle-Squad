@@ -11,6 +11,7 @@
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/nutrition.css" rel="stylesheet">
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/history.js"></script>
     <script src="assets/js/home.js"></script>
 </head>
 
@@ -88,14 +89,22 @@
 			<div class="modal-background"></div>
 			<div class="modal-card">
 				<header class="modal-card-head">
-					<input class="input is-info" type="text" placeholder="Food Consumed" id="foodEatenInput">
+					<p class="modal-card-title">Manually log food eaten</p>
 					<button class="delete clear-form" aria-label="close"></button>
 				</header>
 				<section class="modal-card-body">
 					<div class="field">
 						<div class="control">
 							<label>
-								Manually log calories against your Daily Calorie Goal:
+								Food name:
+								<input class="input is-info" type="text" placeholder="Food consumed" id="foodEatenInput">
+							</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="control">
+							<label>
+								Calories:
 								<input class="input is-info" type="text" placeholder="Calories eaten" id="caloriesEatenInput">
 							</label>
 						</div>

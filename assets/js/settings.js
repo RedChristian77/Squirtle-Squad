@@ -36,6 +36,7 @@
         }
         userHist.push(newUser)
         localStorage.setItem("settings", JSON.stringify(userHist))
+        script.updateCalories(calories);
         })
     })
     }();
