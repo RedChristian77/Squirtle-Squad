@@ -1,8 +1,11 @@
 const home = function () {
-    let _params = {};
+    
 
     // search for a food
     const _searchRequest = function (event) {
+        document.getElementById("test").setAttribute("src","assets/images/Searching.gif");
+        document.getElementById("information").innerHTML = "Searching for foods";
+        document.getElementById("cardContainer").style.display = "block";
         event.preventDefault();
         let headers = {
             "x-app-key": "02976e4e9ef2faf5912a8979ed74e9c2",
@@ -29,12 +32,11 @@ const home = function () {
                 //add no search results div here
             }
             else {
-                nutrientsDiv(data.branded[0]);
                 data.branded.forEach(datum => {
-                    //nutrientsDiv(datum);
+                    nutrientsDiv(datum);
                 });
                 data.common.forEach(datum => {
-                    //nutrientsDiv(datum);
+                    nutrientsDiv(datum);
                 });
             }
         });
@@ -65,6 +67,7 @@ function nutrientsDiv(data) {
     }).then(function (response) {
         return response.json();
     }).then(function (dataum) {
+        document.getElementById("cardContainer").style.display = "none";
         if (dataum.message === void 0) {
             let data = dataum.foods[0];
             //clones template node
@@ -126,7 +129,7 @@ function nutrientsDiv(data) {
                         myFoods.push(myFood);
                         localStorage.setItem("my_foods", JSON.stringify(myFoods));
                     } else {
-                        _displayMessage("You cannot add these calories yet. Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
+                        script.displayMessage("You cannot add these calories yet. Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
                     }
                 })
             }
