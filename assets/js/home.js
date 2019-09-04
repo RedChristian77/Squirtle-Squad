@@ -1,13 +1,17 @@
 const home = function () {
-    let _params = {};
+    
 
     // search for a food
     const _searchRequest = function (event) {
         event.preventDefault();
+        document.getElementById("cardContainer").classList.add("is-hidden");
+        document.getElementById("noresultsDiv").classList.add("is-hidden");
+        document.getElementById("loadingContainer").classList.remove("is-hidden");
+        
         let headers = {
-            "x-app-key": "02976e4e9ef2faf5912a8979ed74e9c2",
+            "x-app-key": "dda87a7beb9557383f39f2753bca8f84",
             "x-remote-user-id": 0,
-            "x-app-id": "c76787f5",
+            "x-app-id": "2aab2c41",
             "Content-Type": "application/x-www-form-urlencoded"
         }
         let queryRequest = encodeURI(document.getElementById("searchInput").value);
@@ -27,14 +31,15 @@ const home = function () {
             document.getElementById("cardContainer").innerHTML = "";
             if (data.common.length === 0 && data.branded.length === 0) {
                 //add no search results div here
+                document.getElementById("loadingContainer").classList.add("is-hidden");
+                document.getElementById("noresultsDiv").classList.remove("is-hidden");
             }
             else {
-                nutrientsDiv(data.branded[0]);
                 data.branded.forEach(datum => {
-                    //nutrientsDiv(datum);
+                    nutrientsDiv(datum);
                 });
                 data.common.forEach(datum => {
-                    //nutrientsDiv(datum);
+                    nutrientsDiv(datum);
                 });
             }
         });
@@ -65,6 +70,7 @@ function nutrientsDiv(data) {
     }).then(function (response) {
         return response.json();
     }).then(function (dataum) {
+        document.getElementById("cardContainer").classList.add("is-hidden");
         if (dataum.message === void 0) {
             let data = dataum.foods[0];
             //clones template node
@@ -126,7 +132,7 @@ function nutrientsDiv(data) {
                         myFoods.push(myFood);
                         localStorage.setItem("my_foods", JSON.stringify(myFoods));
                     } else {
-                        _displayMessage("You cannot add these calories yet. Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
+                        script.displayMessage("You cannot add these calories yet. Please log in to Fitbit or manually set your Calorie Goal in the settings page.");
                     }
                 })
             }
