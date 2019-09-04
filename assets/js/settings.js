@@ -9,7 +9,7 @@
             
         });
         
-    document.getElementById("submit2").addEventListener("click", function
+    document.getElementById("form1").addEventListener("submit", function
         (event) {
         event.preventDefault()
 
@@ -18,6 +18,10 @@
         let gender = document.querySelector('input[name = "gender"]:checked').value;
         console.log(name, calories, gender)
 
+        if(name === "" || calories === ""){           
+            script.displayMessage("Please fill in information!")
+            return false;          
+    }
 
         document.getElementById("table-info").insertAdjacentHTML("afterbegin",
             "<tr><td>" + name + "</td><td>" + calories + "</td><td>" + gender + "</td></tr>")
@@ -26,6 +30,8 @@
             document.getElementById("calorie-input").value=""
             
             document.getElementById("caloriesRemaining").textContent = calories;
+
+
         
         const userHist = JSON.parse(localStorage.getItem("settings")) || [];
 
@@ -37,6 +43,9 @@
         userHist.push(newUser)
         localStorage.setItem("settings", JSON.stringify(userHist))
         script.updateCalories(calories);
+
+
+        
         })
     })
     }();
