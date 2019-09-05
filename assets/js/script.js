@@ -67,23 +67,21 @@ const script = (function () {
 		}
 		
 		if (_params["access_token"] !== void 0) {
-			fetch("https://api.fitbit.com/1/user/" + _params["user_id"] + "/foods/log/goal.json", {
-				method: "GET",
+			axios({
+                method: "get",
+                url: "https://api.fitbit.com/1/user/" + _params["user_id"] + "/foods/log/goal.json", 
 				headers: {
 					"Authorization": "Bearer " + _params["access_token"]
 				}
-			})
-			.then(function (result) {
-				return result.json();
-			})
-			.then(function (data) {
+            })
+			.then(function (response) {
 				// if there are goals (ie we didnt get an error)
-				if (data.goals) {
+				if (response.data.goals) {
 					localStorage.setItem("authentication", JSON.stringify(_params));
-					document.getElementById("caloriesRemaining").textContent = data.goals.calories;
+					document.getElementById("caloriesRemaining").textContent = response.data.goals.calories;
                     // save the new remaining calories
-					localStorage.setItem("calories", data.goals.calories);
-					completeFunction(data.goals.calories);
+					localStorage.setItem("calories", response.data.goals.calories);
+					completeFunction(response.data.goals.calories);
 				} else {
 					_deleteAccessToken();
 					completeFunction();

@@ -20,7 +20,7 @@ const history = (function () {
                 }
                 hours = (hours < 10 ? "0" : "") + hours;
                 const minutes = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-                const dateString = (date.getMonth() + 1) + "/" + (date.getDate() + 1) + "/" + (date.getFullYear())
+                const dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + (date.getFullYear())
                     + " " + hours + ":" + minutes + (isPm ? "pm" : "am");
                 cell4.innerHTML = dateString;
             }
