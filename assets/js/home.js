@@ -1,8 +1,8 @@
 const home = function () {
     const headers = {
-        "x-app-key": "96098d2a2e4bb4aae9e7f809254396c8",
+        "x-app-key": "dda87a7beb9557383f39f2753bca8f84",
         "x-remote-user-id": 0,
-        "x-app-id": "3cdfdd0a",
+        "x-app-id": "2aab2c41",
         "Content-Type": "application/x-www-form-urlencoded"
     }
 
