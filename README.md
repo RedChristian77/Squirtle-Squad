@@ -18,8 +18,8 @@ New Technologies:
 Things to look at:
     N/A
     
- Picture:
-  ![Image here](assets/images/Capture.PNG)
+ Picture
+  ![Alt text](/screenshot.png
     
   Workers:
   Cameron Lattz
