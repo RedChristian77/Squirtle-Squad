@@ -19,7 +19,7 @@ Things to look at:
     N/A
     
  Picture:
-  ![Image here](Capture.PNG)
+  ![Image here](assets/images/Capture.PNG)
     
   Workers:
   Cameron Lattz
