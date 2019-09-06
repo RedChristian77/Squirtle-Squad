@@ -18,7 +18,7 @@ New Technologies:
 Things to look at:
     N/A
     
- Picture:
+ Picture
   ![Alt text](/screenshot.png
     
   Workers:
